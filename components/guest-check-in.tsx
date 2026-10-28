@@ -37,6 +37,20 @@ export function GuestCheckIn() {
   }, [notice]);
 
   useEffect(() => {
+    if (!selected) return;
+
+    // iOS Safari can keep the page offset it used to expose the search field
+    // after the keyboard closes. Return to the full arrival layout once a
+    // guest has been selected so the masthead and confirm action are visible.
+    const timer = window.setTimeout(() => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, left: 0, behavior: reduceMotion ? "instant" : "smooth" });
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [selected]);
+
+  useEffect(() => {
     if (!query.trim()) {
       setMatches([]);
       setLoading(false);
