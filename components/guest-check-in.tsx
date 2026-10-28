@@ -5,6 +5,7 @@ import { Check, CircleAlert, Pause, Play } from "lucide-react";
 import type { Guest } from "@/lib/types";
 import { BeamSearch } from "@/components/ui/beam-search";
 import { GuestArrivalIntro } from "@/components/guest-arrival-intro";
+import { usePageTopReset } from "@/components/use-page-top-reset";
 
 type Notice = {
   type: "success" | "already" | "error";
@@ -31,24 +32,17 @@ export function GuestCheckIn() {
   const [notice, setNotice] = useState<Notice | null>(null);
   const confirmationRef = useRef<HTMLHeadingElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const pageView = notice
+    ? `notice:${notice.type}`
+    : selected
+      ? `selected:${selected.id}`
+      : "guest-check-in";
+
+  usePageTopReset(pageView);
 
   useEffect(() => {
     if (notice) window.requestAnimationFrame(() => confirmationRef.current?.focus({ preventScroll: true }));
   }, [notice]);
-
-  useEffect(() => {
-    if (!selected) return;
-
-    // iOS Safari can keep the page offset it used to expose the search field
-    // after the keyboard closes. Return to the full arrival layout once a
-    // guest has been selected so the masthead and confirm action are visible.
-    const timer = window.setTimeout(() => {
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: 0, left: 0, behavior: reduceMotion ? "instant" : "smooth" });
-    }, 300);
-
-    return () => window.clearTimeout(timer);
-  }, [selected]);
 
   useEffect(() => {
     if (!query.trim()) {
@@ -202,6 +196,7 @@ export function GuestCheckIn() {
                       setQuery(guest.name);
                       setSelected(guest);
                       setMatches([]);
+                      searchRef.current?.blur();
                     }}
                     aria-pressed={false}
                     role="option"

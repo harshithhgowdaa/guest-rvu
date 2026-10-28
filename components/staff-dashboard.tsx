@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import type { BatchProgress, DashboardEntry } from "@/lib/types";
+import { usePageTopReset } from "@/components/use-page-top-reset";
 
 type Dashboard = {
   totals: { registered: number; present: number; pending: number };
@@ -32,6 +33,8 @@ export function StaffDashboard() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const requestInFlight = useRef(false);
   const feedbackTimer = useRef<number | null>(null);
+
+  usePageTopReset("staff-dashboard");
 
   const refresh = useCallback(async (manual = false) => {
     if (requestInFlight.current) return;

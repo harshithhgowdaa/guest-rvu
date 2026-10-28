@@ -1,14 +1,18 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { usePageTopReset } from "@/components/use-page-top-reset";
 
 export default function StaffLoginPage() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  usePageTopReset(error ? "staff-login-error" : "staff-login");
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
     setLoading(true);
     setError("");
     try {
