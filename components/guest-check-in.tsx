@@ -20,8 +20,6 @@ const CAMPUS_MOMENTS = [
   { src: "/programmes/health.jpg", alt: "Students learning in a health sciences lab" }
 ] as const;
 
-const LOOPING_CAMPUS_MOMENTS = [...CAMPUS_MOMENTS, ...CAMPUS_MOMENTS];
-
 export function GuestCheckIn() {
   const [query, setQuery] = useState("");
   const [matches, setMatches] = useState<Guest[]>([]);
@@ -218,10 +216,14 @@ function CampusMomentsCarousel() {
     >
       <div className="campus-moments__viewport">
         <div className="campus-moments__track">
-          {LOOPING_CAMPUS_MOMENTS.map((moment, index) => (
-            <figure className="campus-moments__slide" key={`${moment.src}-${index}`}>
-              <img src={moment.src} alt="" />
-            </figure>
+          {[0, 1].map((copy) => (
+            <div className="campus-moments__group" key={copy} aria-hidden="true">
+              {CAMPUS_MOMENTS.map((moment) => (
+                <figure className="campus-moments__slide" key={moment.src}>
+                  <img src={moment.src} alt="" />
+                </figure>
+              ))}
+            </div>
           ))}
         </div>
         <button
