@@ -728,6 +728,7 @@ th,td { padding-right:7px; }
 .guest-confirmation-mark--success {
   width: 90px;
   height: 122px;
+  margin-bottom: 20px;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -762,7 +763,10 @@ th,td { padding-right:7px; }
 
 .guest-secondary-action {
   align-self: center;
-  min-width: 196px;
+  min-width: min(100%, 260px);
+  min-height: 54px;
+  padding-inline: 22px;
+  font-size: .84rem;
 }
 
 @keyframes guest-confirmation-arrive {
