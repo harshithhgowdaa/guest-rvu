@@ -400,6 +400,10 @@ th,td { padding-right:7px; }
   text-wrap: balance;
 }
 
+.guest-arrival-panel:not(.guest-arrival-panel--confirmation) h1#checkin-heading:focus {
+  outline: none;
+}
+
 .guest-instructions {
   max-width: 27ch;
   align-self: center;
@@ -646,7 +650,17 @@ th,td { padding-right:7px; }
 }
 
 @media (max-width: 720px) {
-  .guest-arrival-panel { padding: 25px 22px 22px; }
+  .guest-arrival-page { display: flex; flex-direction: column; }
+  .guest-arrival-shell {
+    flex: 1 0 auto;
+    align-items: stretch;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  .guest-arrival-panel {
+    flex: 1 0 auto;
+    justify-content: space-between;
+    padding: 25px 22px 22px;
+  }
   .guest-arrival-orbit { margin-bottom: 20px; }
   .guest-instructions { margin-top: 12px; }
   .check-in-form { gap: 12px; margin-top: 24px; }
