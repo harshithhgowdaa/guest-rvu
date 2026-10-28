@@ -137,11 +137,11 @@ export async function listBatches(): Promise<string[]> {
 
 export async function searchGuests(query?: string) {
   const normalizedQuery = query ? normalizeName(query) : "";
+  if (!normalizedQuery) return [];
   const roster = await getRoster();
-  if (!normalizedQuery) return roster.slice(0, 8);
   return roster
     .filter((guest) => normalizeName(guest.name).includes(normalizedQuery))
-    .slice(0, 8);
+    .slice(0, 3);
 }
 
 export async function checkIn(guestId: string): Promise<CheckInResult> {

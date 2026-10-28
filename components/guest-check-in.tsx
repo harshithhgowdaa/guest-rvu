@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Guest } from "@/lib/types";
 import { GuestArrivalIntro } from "@/components/guest-arrival-intro";
+import { BeamSearch } from "@/components/ui/beam-search";
 
 type Notice = {
   type: "success" | "already" | "error";
@@ -16,15 +17,24 @@ export function GuestCheckIn() {
   const [selected, setSelected] = useState<Guest | null>(null);
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [notice, setNotice] = useState<Notice | null>(null);
   const confirmationRef = useRef<HTMLHeadingElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (notice) window.requestAnimationFrame(() => confirmationRef.current?.focus());
   }, [notice]);
 
   useEffect(() => {
+    if (!query.trim()) {
+      setMatches([]);
+      setLoading(false);
+      setSearchError("");
+      return;
+    }
+
     const controller = new AbortController();
     const timer = window.setTimeout(async () => {
       setLoading(true);
@@ -58,6 +68,14 @@ export function GuestCheckIn() {
     setQuery("");
     setSelected(null);
     setNotice(null);
+  }
+
+  function clearSearch() {
+    setQuery("");
+    setMatches([]);
+    setSelected(null);
+    setSearchError("");
+    searchRef.current?.focus();
   }
 
   async function submit() {
@@ -120,30 +138,35 @@ export function GuestCheckIn() {
           <form className="check-in-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
             <fieldset>
               <label className="name-label" htmlFor="guest-name">Your name</label>
-              <input
+              <BeamSearch
                 id="guest-name"
+                inputRef={searchRef}
                 value={query}
-                onChange={(event) => {
-                  setQuery(event.target.value);
-                  setSelected(null);
-                }}
                 placeholder="Start typing your name"
-                autoComplete="name"
+                ariaControls="guest-search-results"
+                ariaExpanded={query.trim().length > 0 && matches.length > 0}
+                onChange={(value) => { setQuery(value); setSelected(null); }}
+                onClear={() => { setMatches([]); setSelected(null); setSearchError(""); }}
+                onEscape={() => { setMatches([]); setSelected(null); setSearchError(""); }}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
               />
             </fieldset>
-            <div className="results" aria-live="polite">
+            <div className="results" id="guest-search-results" role="listbox" aria-label="Matching guests" aria-live="polite">
               {loading && <p className="quiet">Searching the register…</p>}
               {searchError && <p className="form-error" role="alert">{searchError}</p>}
               {!loading && !searchError && query.trim().length > 0 && matches.length === 0 && (
                 <p className="quiet">No matching record. Please speak with the event desk.</p>
               )}
-              {matches.map((guest) => (
+              {query.trim().length > 0 && matches.slice(0, 3).map((guest) => (
                 <button
                   className={`guest-result ${selected?.id === guest.id ? "selected" : ""}`}
                   type="button"
                   key={guest.id}
                   onClick={() => setSelected(guest)}
                   aria-pressed={selected?.id === guest.id}
+                  role="option"
+                  aria-selected={selected?.id === guest.id}
                 >
                   <span>{guest.name}</span>
                   <span>{selected?.id === guest.id ? "Selected" : "Select"}</span>
