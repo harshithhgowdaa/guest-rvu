@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, CircleAlert, Pause, Play } from "lucide-react";
 import type { Guest } from "@/lib/types";
 import { BeamSearch } from "@/components/ui/beam-search";
@@ -117,13 +117,17 @@ export function GuestCheckIn() {
         <div className="guest-arrival-shell guest-arrival-shell--confirmation">
           <section className="guest-arrival-panel guest-arrival-panel--confirmation" aria-live="polite" aria-atomic="true">
             <div className={`guest-confirmation-mark guest-confirmation-mark--${notice.type}`} aria-hidden="true">
-              <OutcomeIcon strokeWidth={1.8} />
+              {notice.type === "success" ? (
+                <span className="guest-confirmation-crest" />
+              ) : (
+                <OutcomeIcon strokeWidth={1.8} />
+              )}
             </div>
             <h1 ref={confirmationRef} tabIndex={-1}>
-              {notice.type === "success" ? "You’re checked in" : notice.type === "already" ? "You’re already on the list" : "We couldn’t check you in"}
+              {notice.type === "success" ? "We’re delighted to have you with us." : notice.type === "already" ? "You’re already on the list" : "We couldn’t check you in"}
             </h1>
             <p>
-              {notice.type === "success" && `${notice.name}, your attendance has been marked present.`}
+              {notice.type === "success" && `${notice.name}, have a wonderful day!`}
               {notice.type === "already" && `${notice.name} has already been marked present.`}
               {notice.type === "error" && notice.message}
             </p>
