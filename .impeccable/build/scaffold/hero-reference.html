@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Scaffold reference: academic-registry-b.png</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yusei+Magic:wght@400&family=Rufina:wght@700&display=swap">
+  <link rel="stylesheet" href="layout.css">
+  <style>html,body{margin:0}body{background:#f7f7f7}.region{box-sizing:border-box}.region.text p{white-space:pre-wrap}</style>
+</head>
+<body>
+<!-- Reference only. Every region sits at its measured box inside a comp-aspect frame. Take the boxes (layout.css), keep your own semantic structure. -->
+<main class="comp-frame" style="max-width:1505px">
+  <div class="r-masthead region chrome" data-region="masthead"><!-- institutional charcoal masthead with brand lockup and staff state --></div>
+  <div class="r-brand-lockup region text" data-region="brand-lockup"><!-- official RV University lockup area; source asset supplied separately --><p style="line-height:1.05;margin:0">brand-lockup</p></div>
+  <div class="r-masthead-title region text" data-region="masthead-title"><!-- Guest attendance / academic registrar --><p style="line-height:1.05;margin:0">masthead-title</p></div>
+  <div class="r-masthead-meta region text" data-region="masthead-meta"><!-- date and staff state --><p style="line-height:1.05;margin:0">masthead-meta</p></div>
+  <div class="r-event-panel region chrome" data-region="event-panel"><!-- event context and sequence column --></div>
+  <div class="r-event-label region text" data-region="event-label"><!-- event label --><p style="font-size:var(--r-event-label-font);font-family:var(--r-event-label-family),sans-serif;font-weight:var(--r-event-label-weight);line-height:1.05;margin:0">event-label</p></div>
+  <div class="r-event-title region text" data-region="event-title"><!-- event or welcome headline --><p style="font-size:var(--r-event-title-font);font-family:var(--r-event-title-family),sans-serif;font-weight:var(--r-event-title-weight);line-height:1.05;margin:0">event-title</p></div>
+  <div class="r-event-details region text" data-region="event-details"><!-- date, time and venue metadata --><p style="font-size:var(--r-event-details-font);line-height:1.05;margin:0">event-details</p></div>
+  <div class="r-sequence region control" data-region="sequence"><!-- two-step guest check-in sequence: rebuild the control's chrome from the crop (comp-spec.mjs --crop sequence); its ink box, border, fill, radius, and label size are the comp's --></div>
+  <div class="r-checkin-panel region chrome" data-region="checkin-panel"><!-- guest action area --></div>
+  <div class="r-batch-heading region text" data-region="batch-heading"><!-- Choose your batch heading --><p style="font-size:var(--r-batch-heading-font);line-height:1.05;margin:0">batch-heading</p></div>
+  <div class="r-batch-control region control" data-region="batch-control"><!-- batch selection input: rebuild the control's chrome from the crop (comp-spec.mjs --crop batch-control); its ink box, border, fill, radius, and label size are the comp's --></div>
+  <div class="r-search-heading region text" data-region="search-heading"><!-- Find your name heading --><p style="font-size:var(--r-search-heading-font);line-height:1.05;margin:0">search-heading</p></div>
+  <div class="r-search-control region control" data-region="search-control"><!-- name search input: rebuild the control's chrome from the crop (comp-spec.mjs --crop search-control); its ink box, border, fill, radius, and label size are the comp's --></div>
+  <div class="r-status-panel region chrome" data-region="status-panel"><!-- operational batch status and staff access --></div>
+  <div class="r-status-copy region text" data-region="status-copy"><!-- batch count, readiness and staff link --><p style="line-height:1.05;margin:0">status-copy</p></div>
+  <div class="r-register-toolbar region control" data-region="register-toolbar"><!-- guest results heading, sort and page controls: rebuild the control's chrome from the crop (comp-spec.mjs --crop register-toolbar); its ink box, border, fill, radius, and label size are the comp's --></div>
+  <div class="r-register-table region chrome" data-region="register-table"><!-- attendance search-result table with single active row --></div>
+  <div class="r-table-text region text" data-region="table-text"><!-- attendance columns and participant rows --><p style="line-height:1.05;margin:0">table-text</p></div>
+  <div class="r-table-actions region control" data-region="table-actions"><!-- view and check-in row actions: rebuild the control's chrome from the crop (comp-spec.mjs --crop table-actions); its ink box, border, fill, radius, and label size are the comp's --></div>
+</main>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "regions": [
+    {"id":"masthead","kind":"chrome","grid":"A0:J0","note":"institutional charcoal masthead with brand lockup and staff state","container":true},
+    {"id":"brand-lockup","kind":"text","grid":"A0:B0","note":"official RV University lockup area; source asset supplied separately"},
+    {"id":"masthead-title","kind":"text","grid":"B0:D0","note":"Guest attendance / academic registrar"},
+    {"id":"masthead-meta","kind":"text","grid":"G0:J0","note":"date and staff state"},
+    {"id":"event-panel","kind":"chrome","grid":"A1:C5","note":"event context and sequence column","container":true},
+    {"id":"event-label","kind":"text","grid":"A1:A1","note":"event label"},
+    {"id":"event-title","kind":"text","grid":"A1:C2","note":"event or welcome headline"},
+    {"id":"event-details","kind":"text","grid":"A2:C3","note":"date, time and venue metadata"},
+    {"id":"sequence","kind":"control","grid":"A4:C5","note":"two-step guest check-in sequence"},
+    {"id":"checkin-panel","kind":"chrome","grid":"D1:G5","note":"guest action area","container":true},
+    {"id":"batch-heading","kind":"text","grid":"D1:G1","note":"Choose your batch heading"},
+    {"id":"batch-control","kind":"control","grid":"D2:G2","note":"batch selection input"},
+    {"id":"search-heading","kind":"text","grid":"D3:G3","note":"Find your name heading"},
+    {"id":"search-control","kind":"control","grid":"D3:G4","note":"name search input"},
+    {"id":"status-panel","kind":"chrome","grid":"H1:J5","note":"operational batch status and staff access","container":true},
+    {"id":"status-copy","kind":"text","grid":"H1:J5","note":"batch count, readiness and staff link"},
+    {"id":"register-toolbar","kind":"control","grid":"A6:J6","note":"guest results heading, sort and page controls"},
+    {"id":"register-table","kind":"chrome","grid":"A6:J9","note":"attendance search-result table with single active row","container":true},
+    {"id":"table-text","kind":"text","grid":"A6:J9","note":"attendance columns and participant rows","container":true},
+    {"id":"table-actions","kind":"control","grid":"J6:J9","note":"view and check-in row actions"}
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "tool": "build-phase",
+  "version": 2,
+  "startedAt": "2026-10-28T08:53:05.723Z",
+  "comp": ".impeccable/mocks/academic-registry-b.png",
+  "direction": "787cbe5b",
+  "breakpoint": "1505x1045",
+  "artifact": null,
+  "phase": "hero",
+  "phases": {
+    "comps": {
+      "status": "closed",
+      "openedAt": "2026-10-28T08:53:05.722Z",
+      "closedAt": "2026-10-28T09:00:43.627Z",
+      "attempts": 2,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "3 comps, 1 approved",
+        "approved": ".impeccable/mocks/academic-registry-b.png",
+        "at": "2026-10-28T09:00:43.627Z"
+      },
+      "forced": null
+    },
+    "spec": {
+      "status": "closed",
+      "openedAt": "2026-10-28T09:00:43.653Z",
+      "closedAt": "2026-10-28T09:03:34.803Z",
+      "attempts": 2,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "20 regions, 0 plates, 10 text regions measured",
+        "at": "2026-10-28T09:03:34.803Z"
+      },
+      "forced": null
+    },
+    "plates": {
+      "status": "closed",
+      "openedAt": "2026-10-28T09:03:34.803Z",
+      "closedAt": "2026-10-28T09:03:47.533Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "no plates owed",
+        "at": "2026-10-28T09:03:47.533Z"
+      },
+      "forced": null
+    },
+    "hero": {
+      "status": "open",
+      "openedAt": "2026-10-28T09:03:47.533Z",
+      "closedAt": null,
+      "attempts": 2,
+      "notes": [
+        {
+          "at": "2026-10-28T09:13:39.938Z",
+          "text": "Visual desktop review completed in the permitted CUA browser surface. Its screenshot API exposes a Uint8Array only and does not offer a filesystem save capability, so a saved hero-repro artifact cannot be produced without prohibited non-CUA browser automation."
+        }
+      ],
+      "gate": {
+        "ok": false,
+        "reasons": [
+          "no hero capture at .impeccable/review/hero-repro.png: screenshot the first viewport at the comp's own dimensions (1505x1045) into that path"
+        ],
+        "at": "2026-10-28T09:13:39.956Z"
+      },
+      "forced": null
+    },
+    "sections": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "motion": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "responsive": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "review": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    }
+  },
+  "finish": null,
+  "plates": {}
+}
