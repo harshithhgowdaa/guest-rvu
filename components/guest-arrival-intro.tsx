@@ -4,12 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { GlassIconReveal } from "@/components/ui/liquid-glass-logo-reveal";
 
 /* Background colour — identical to page body (--paper) and CSS overlay */
-const BG = "#f8f7f3";
+const BG = "#EFEFEE";
 
 /**
  * Full-screen liquid glass logo reveal that plays on every page load/refresh.
- * The transparent crest logo is magnified and refractions ripple across its rim,
- * then smoothly fades away to display the check-in interface.
+ * After the crest resolves, the university's message fades in before check-in.
  */
 export function GuestArrivalIntro() {
   const [phase, setPhase] = useState<"showing" | "fading" | "done">("showing");
@@ -31,7 +30,7 @@ export function GuestArrivalIntro() {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const delay = reducedMotion ? 200 : 4200;
+    const delay = reducedMotion ? 300 : 6100;
     const t = window.setTimeout(finish, delay);
     return () => window.clearTimeout(t);
   }, [finish]);
@@ -41,34 +40,42 @@ export function GuestArrivalIntro() {
   return (
     <div
       className={`guest-arrival-intro-glass${phase === "fading" ? " is-fading" : ""}`}
-      aria-label="RV University — loading"
-      role="img"
+      aria-label="RV University — Go, change the world"
+      role="region"
+      aria-live="polite"
     >
-      <GlassIconReveal
-        logo="/brand/rvu-crest-clean.png"
-        look="light"
-        background={BG}
-        logoColor="#233039"
-        loop={false}
-        hold={0.4}
-        tileSize={360}
-        logoScale={0.88}
-        finalScale={0.92}
-        label="RV University crest"
-        className="glass-reveal-tile"
-        tuning={{
-          startZoom: 2.2,
-          present: 2.4,
-          glide: 2.2,
-          dispersion: 1.6,
-          colorBleed: 1.25,
-          sheen: 0.9,
-          bevelWidth: 0.14,
-          corner: 4.8,
-          opticalDepth: 1.0,
-          swell: 0.3,
-        }}
-      />
+      <div className="guest-arrival-intro-content">
+        <GlassIconReveal
+          logo="/brand/rvu-crest-clean.png"
+          look="light"
+          background={BG}
+          logoColor="#233039"
+          loop={false}
+          hold={0.4}
+          tileSize={360}
+          logoScale={0.88}
+          finalScale={0.92}
+          label="RV University crest"
+          className="glass-reveal-tile"
+          tuning={{
+            startZoom: 2.2,
+            present: 2.4,
+            glide: 2.2,
+            dispersion: 1.6,
+            colorBleed: 1.25,
+            sheen: 0.9,
+            bevelWidth: 0.14,
+            corner: 4.8,
+            opticalDepth: 1.0,
+            swell: 0.3,
+          }}
+        />
+        <img
+          className="guest-arrival-motto"
+          src="/brand/rvu-go-change-the-world.png"
+          alt="Go, change the world"
+        />
+      </div>
     </div>
   );
 }

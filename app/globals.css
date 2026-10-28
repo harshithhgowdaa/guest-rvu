@@ -6,7 +6,7 @@
 @import "@fontsource/montserrat/500.css";
 @import "@fontsource/montserrat/600.css";
 
-:root { --ink:#000; --charcoal:#233039; --teal:#004854; --gold:#d7ac54; --gold-deep:#c29650; --paper:#f8f7f3; --paper-deep:#efede6; --line:#c9ccca; --muted:#5c6870; --success:#006b55; --error:#a8342d; --sans:"Cantarell",Arial,sans-serif; --serif:"Playfair Display",Georgia,serif; --numbers:"Montserrat",Arial,sans-serif; }
+:root { --ink:#000; --charcoal:#233039; --teal:#004854; --gold:#d7ac54; --gold-deep:#c29650; --paper:#efefee; --paper-deep:#e4e4e3; --line:#c9ccca; --muted:#5c6870; --success:#006b55; --error:#a8342d; --sans:"Cantarell",Arial,sans-serif; --serif:"Playfair Display",Georgia,serif; --numbers:"Montserrat",Arial,sans-serif; }
 * { box-sizing:border-box; }
 html { background:var(--paper); color:var(--charcoal); }
 body { min-width:320px; min-height:100vh; margin:0; font-family:var(--sans); }
@@ -190,11 +190,10 @@ th,td { padding-right:7px; }
   position: fixed;
   inset: 0;
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Exactly matches the BG constant (#f8f7f3 = var(--paper)) in guest-arrival-intro.tsx */
-  background: #f8f7f3;
+  display: grid;
+  place-items: center;
+  /* Match the page canvas behind the liquid-glass mark. */
+  background: #efefee;
   opacity: 1;
   transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -214,7 +213,30 @@ th,td { padding-right:7px; }
   flex-shrink: 0;
 }
 
+.guest-arrival-intro-content {
+  width: min(100%, 760px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 3vh, 28px);
+  padding: 24px;
+}
+
+.guest-arrival-motto {
+  display: block;
+  width: min(82vw, 560px);
+  height: auto;
+  opacity: 0;
+  animation: motto-arrive 1.25s cubic-bezier(.16, 1, .3, 1) 4.2s forwards;
+}
+
+@keyframes motto-arrive {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .guest-arrival-intro-glass { transition: none; }
+  .guest-arrival-motto { animation: none; opacity: 1; }
 }
 
