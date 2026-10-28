@@ -9,7 +9,7 @@
 :root { --ink:#000; --charcoal:#233039; --teal:#004854; --gold:#d7ac54; --gold-deep:#c29650; --paper:#efefee; --paper-deep:#e4e4e3; --line:#c9ccca; --muted:#5c6870; --success:#006b55; --error:#a8342d; --sans:"Cantarell",Arial,sans-serif; --serif:"Playfair Display",Georgia,serif; --numbers:"Montserrat",Arial,sans-serif; }
 * { box-sizing:border-box; }
 html { background:var(--paper); color:var(--charcoal); }
-body { min-width:320px; min-height:100vh; margin:0; font-family:var(--sans); }
+body { min-width:320px; min-height:100vh; margin:0; background:var(--paper); font-family:var(--sans); }
 button,input,select { font:inherit; }
 button,select { cursor:pointer; }
 button:disabled { cursor:not-allowed; opacity:.52; }
