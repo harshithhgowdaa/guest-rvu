@@ -1,15 +1,26 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, CircleAlert } from "lucide-react";
+import { Check, CircleAlert, Pause, Play } from "lucide-react";
 import type { Guest } from "@/lib/types";
 import { BeamSearch } from "@/components/ui/beam-search";
+import { GuestArrivalIntro } from "@/components/guest-arrival-intro";
 
 type Notice = {
   type: "success" | "already" | "error";
   name?: string;
   message?: string;
 };
+
+const CAMPUS_MOMENTS = [
+  { src: "/programmes/postgraduate.jpg", alt: "Students collaborating around a laptop" },
+  { src: "/programmes/computing.jpg", alt: "Students building a robotics project" },
+  { src: "/programmes/media.jpg", alt: "Students exploring photography together" },
+  { src: "/programmes/law.jpg", alt: "Student studying in the library" },
+  { src: "/programmes/health.jpg", alt: "Students learning in a health sciences lab" }
+] as const;
+
+const LOOPING_CAMPUS_MOMENTS = [...CAMPUS_MOMENTS, ...CAMPUS_MOMENTS];
 
 export function GuestCheckIn() {
   const [query, setQuery] = useState("");
@@ -111,6 +122,7 @@ export function GuestCheckIn() {
 
     return (
       <main className="guest-arrival-page">
+        <GuestArrivalIntro />
         <Masthead />
         <div className="guest-arrival-shell guest-arrival-shell--confirmation">
           <section className="guest-arrival-panel guest-arrival-panel--confirmation" aria-live="polite" aria-atomic="true">
@@ -134,6 +146,7 @@ export function GuestCheckIn() {
 
   return (
     <main className="guest-arrival-page">
+      <GuestArrivalIntro />
       <Masthead />
       <div className="guest-arrival-shell">
         <section
@@ -141,8 +154,9 @@ export function GuestCheckIn() {
           aria-labelledby="checkin-heading"
         >
           <h1 id="checkin-heading" tabIndex={-1}>Welcome to RV University</h1>
-          <p className="guest-instructions">Find your name below to check in.</p>
+          <CampusMomentsCarousel />
           <form className="check-in-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
+            <p className="guest-instructions">Find your name below to check in.</p>
             <fieldset className="guest-search-control">
               <legend className="sr-only">Search for your name</legend>
               <BeamSearch
@@ -191,6 +205,36 @@ export function GuestCheckIn() {
         </section>
       </div>
     </main>
+  );
+}
+
+function CampusMomentsCarousel() {
+  const [isPaused, setIsPaused] = useState(false);
+
+  return (
+    <section
+      className={`campus-moments${isPaused ? " is-paused" : ""}`}
+      aria-label="A moving gallery of student life at RV University"
+    >
+      <div className="campus-moments__viewport">
+        <div className="campus-moments__track">
+          {LOOPING_CAMPUS_MOMENTS.map((moment, index) => (
+            <figure className="campus-moments__slide" key={`${moment.src}-${index}`}>
+              <img src={moment.src} alt="" />
+            </figure>
+          ))}
+        </div>
+        <button
+          className="campus-moments__pause"
+          type="button"
+          aria-label={isPaused ? "Resume moving images" : "Pause moving images"}
+          aria-pressed={isPaused}
+          onClick={() => setIsPaused((paused) => !paused)}
+        >
+          {isPaused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
+        </button>
+      </div>
+    </section>
   );
 }
 
