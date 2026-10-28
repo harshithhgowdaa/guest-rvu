@@ -12,14 +12,6 @@ type Notice = {
   message?: string;
 };
 
-const CAMPUS_MOMENTS = [
-  { src: "/programmes/postgraduate.jpg", alt: "Students collaborating around a laptop" },
-  { src: "/programmes/computing.jpg", alt: "Students building a robotics project" },
-  { src: "/programmes/media.jpg", alt: "Students exploring photography together" },
-  { src: "/programmes/law.jpg", alt: "Student studying in the library" },
-  { src: "/programmes/health.jpg", alt: "Students learning in a health sciences lab" }
-] as const;
-
 export function GuestCheckIn() {
   const [query, setQuery] = useState("");
   const [matches, setMatches] = useState<Guest[]>([]);
@@ -208,21 +200,21 @@ export function GuestCheckIn() {
 
 function CampusMomentsCarousel() {
   const [isPaused, setIsPaused] = useState(false);
-  const firstGroupRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const group = firstGroupRef.current;
+    const viewport = viewportRef.current;
     const track = trackRef.current;
-    if (!group || !track) return;
+    if (!viewport || !track) return;
 
-    const updateCycleDistance = () => {
-      track.style.setProperty("--carousel-cycle-width", `${group.getBoundingClientRect().width}px`);
+    const updateCycleWidth = () => {
+      track.style.setProperty("--carousel-cycle-width", `${viewport.getBoundingClientRect().height * (1700 / 262)}px`);
     };
 
-    updateCycleDistance();
-    const observer = new ResizeObserver(updateCycleDistance);
-    observer.observe(group);
+    updateCycleWidth();
+    const observer = new ResizeObserver(updateCycleWidth);
+    observer.observe(viewport);
     return () => observer.disconnect();
   }, []);
 

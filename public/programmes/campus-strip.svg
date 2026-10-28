@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="262" viewBox="0 0 1700 262">
+  <image href="postgraduate.jpg" x="0" y="0" width="340" height="262" preserveAspectRatio="xMidYMid slice" />
+  <image href="computing.jpg" x="340" y="0" width="340" height="262" preserveAspectRatio="xMidYMid slice" />
+  <image href="media.jpg" x="680" y="0" width="340" height="262" preserveAspectRatio="xMidYMid slice" />
+  <image href="law.jpg" x="1020" y="0" width="340" height="262" preserveAspectRatio="xMidYMid slice" />
+  <image href="health.jpg" x="1360" y="0" width="340" height="262" preserveAspectRatio="xMidYMid slice" />
+</svg>
