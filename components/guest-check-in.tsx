@@ -214,6 +214,7 @@ function CampusMomentsCarousel() {
   const [isPaused, setIsPaused] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
+  const stripRef = useRef<HTMLCanvasElement | null>(null);
   const offsetRef = useRef(0);
 
   useEffect(() => {
@@ -255,26 +256,46 @@ function CampusMomentsCarousel() {
             canvas.height = pixelHeight;
           }
 
-          context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-          context.clearRect(0, 0, bounds.width, bounds.height);
-
           const slideWidth = Math.min(340, Math.max(240, bounds.width * .78));
-          const cycleWidth = slideWidth * images.length;
-          if (previousTime) offsetRef.current = (offsetRef.current + (time - previousTime) * cycleWidth / 26000) % cycleWidth;
+          const slidePixels = Math.round(slideWidth * pixelRatio);
+          const cyclePixels = slidePixels * images.length;
+          const stripWidth = cyclePixels * 2;
+          let strip = stripRef.current;
+
+          if (!strip || strip.width !== stripWidth || strip.height !== pixelHeight) {
+            strip = document.createElement("canvas");
+            strip.width = stripWidth;
+            strip.height = pixelHeight;
+            const stripContext = strip.getContext("2d");
+
+            if (stripContext) {
+              stripContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+              const renderedSlideWidth = slidePixels / pixelRatio;
+              const renderedHeight = pixelHeight / pixelRatio;
+
+              for (let copy = 0; copy < 2; copy += 1) {
+                images.forEach((image, index) => {
+                  const scale = Math.max(renderedSlideWidth / image.naturalWidth, renderedHeight / image.naturalHeight);
+                  const sourceWidth = renderedSlideWidth / scale;
+                  const sourceHeight = renderedHeight / scale;
+                  const sourceX = (image.naturalWidth - sourceWidth) / 2;
+                  const sourceY = (image.naturalHeight - sourceHeight) / 2;
+                  const x = (copy * images.length + index) * renderedSlideWidth;
+                  stripContext.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, 0, renderedSlideWidth, renderedHeight);
+                });
+              }
+
+              stripRef.current = strip;
+            }
+          }
+
+          if (previousTime) offsetRef.current = (offsetRef.current + (time - previousTime) * cyclePixels / 26000) % cyclePixels;
           previousTime = time;
 
-          const wholeSlides = Math.floor(offsetRef.current / slideWidth);
-          const partialSlide = offsetRef.current % slideWidth;
-          const slots = Math.ceil(bounds.width / slideWidth) + 1;
-          for (let slot = 0; slot <= slots; slot += 1) {
-            const image = images[(wholeSlides + slot) % images.length];
-            const x = slot * slideWidth - partialSlide;
-            const scale = Math.max(slideWidth / image.naturalWidth, bounds.height / image.naturalHeight);
-            const sourceWidth = slideWidth / scale;
-            const sourceHeight = bounds.height / scale;
-            const sourceX = (image.naturalWidth - sourceWidth) / 2;
-            const sourceY = (image.naturalHeight - sourceHeight) / 2;
-            context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, 0, slideWidth, bounds.height);
+          if (stripRef.current) {
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(stripRef.current, offsetRef.current, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
           }
         }
       }
