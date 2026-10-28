@@ -33,7 +33,7 @@ export function GuestCheckIn() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (notice) window.requestAnimationFrame(() => confirmationRef.current?.focus());
+    if (notice) window.requestAnimationFrame(() => confirmationRef.current?.focus({ preventScroll: true }));
   }, [notice]);
 
   useEffect(() => {
@@ -120,7 +120,6 @@ export function GuestCheckIn() {
 
     return (
       <main className="guest-arrival-page">
-        <GuestArrivalIntro />
         <Masthead />
         <div className="guest-arrival-shell guest-arrival-shell--confirmation">
           <section className="guest-arrival-panel guest-arrival-panel--confirmation" aria-live="polite" aria-atomic="true">
