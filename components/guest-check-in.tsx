@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Check, CircleAlert } from "lucide-react";
 import type { Guest } from "@/lib/types";
 import { GuestArrivalIntro } from "@/components/guest-arrival-intro";
 import { BeamSearch } from "@/components/ui/beam-search";
@@ -107,37 +108,48 @@ export function GuestCheckIn() {
   }
 
   if (notice) {
+    const OutcomeIcon = notice.type === "error" ? CircleAlert : Check;
+
     return (
-      <main className="registry-page">
+      <main className="guest-arrival-page">
         <Masthead />
-        <section className="confirmation-sheet" aria-live="polite" aria-atomic="true">
-          <div className="check-seal" aria-hidden="true">✓</div>
-          <p className="section-tag">Attendance record</p>
-          <h1 ref={confirmationRef} tabIndex={-1}>
-            {notice.type === "success" ? "Attendance recorded" : notice.type === "already" ? "Already recorded" : "Check-in unavailable"}
-          </h1>
-          <p>
-            {notice.type === "success" && `${notice.name}, your attendance is now marked present.`}
-            {notice.type === "already" && `${notice.name} has already been marked present.`}
-            {notice.type === "error" && notice.message}
-          </p>
-          <button className="outline-button" onClick={reset}>Check in another guest</button>
-        </section>
+        <div className="guest-arrival-shell guest-arrival-shell--confirmation">
+          <section className="guest-arrival-panel guest-arrival-panel--confirmation" aria-live="polite" aria-atomic="true">
+            <div className={`guest-confirmation-mark guest-confirmation-mark--${notice.type}`} aria-hidden="true">
+              <OutcomeIcon strokeWidth={1.8} />
+            </div>
+            <h1 ref={confirmationRef} tabIndex={-1}>
+              {notice.type === "success" ? "You’re checked in" : notice.type === "already" ? "You’re already on the list" : "We couldn’t check you in"}
+            </h1>
+            <p>
+              {notice.type === "success" && `${notice.name}, your attendance has been marked present.`}
+              {notice.type === "already" && `${notice.name} has already been marked present.`}
+              {notice.type === "error" && notice.message}
+            </p>
+            <button className="guest-secondary-action" onClick={reset}>Check in another guest</button>
+          </section>
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="registry-page">
+    <main className="guest-arrival-page">
       <GuestArrivalIntro />
       <Masthead />
-      <div className="guest-workbench">
-        <section className="checkin-station" aria-labelledby="checkin-heading">
-          <h1 id="checkin-heading" tabIndex={-1}>Welcome to RV University</h1>
-          <p className="guest-instructions">Find your name to check in.</p>
+      <div className="guest-arrival-shell">
+        <section
+          className={`guest-arrival-panel ${searchFocused ? "is-searching" : ""} ${selected ? "has-selection" : ""}`}
+          aria-labelledby="checkin-heading"
+        >
+          <div className="guest-arrival-orbit" aria-hidden="true">
+            <img src="/brand/rvu-crest-clean.png" alt="" />
+          </div>
+          <h1 id="checkin-heading" tabIndex={-1}>Find your name</h1>
+          <p className="guest-instructions">A small welcome, then you’re all set.</p>
           <form className="check-in-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
-            <fieldset>
-              <label className="name-label" htmlFor="guest-name">Your name</label>
+            <fieldset className="guest-search-control">
+              <legend className="sr-only">Search for your name</legend>
               <BeamSearch
                 id="guest-name"
                 inputRef={searchRef}
@@ -146,35 +158,39 @@ export function GuestCheckIn() {
                 ariaControls="guest-search-results"
                 ariaExpanded={query.trim().length > 0 && matches.length > 0}
                 onChange={(value) => { setQuery(value); setSelected(null); }}
-                onClear={() => { setMatches([]); setSelected(null); setSearchError(""); }}
-                onEscape={() => { setMatches([]); setSelected(null); setSearchError(""); }}
+                onClear={clearSearch}
+                onEscape={clearSearch}
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
               />
+              <div className="results" id="guest-search-results" role="listbox" aria-label="Matching guests" aria-live="polite">
+                {!selected && loading && <p className="quiet">Searching the register…</p>}
+                {!selected && searchError && <p className="form-error" role="alert">{searchError}</p>}
+                {!selected && !loading && !searchError && query.trim().length > 0 && matches.length === 0 && (
+                  <p className="quiet">No matching record. Please speak with the event desk.</p>
+                )}
+                {!selected && query.trim().length > 0 && matches.slice(0, 3).map((guest) => (
+                  <button
+                    className="guest-result"
+                    type="button"
+                    key={guest.id}
+                    onClick={() => {
+                      setQuery(guest.name);
+                      setSelected(guest);
+                      setMatches([]);
+                    }}
+                    aria-pressed={false}
+                    role="option"
+                    aria-selected={false}
+                  >
+                    <span>{guest.name}</span>
+                    <span className="guest-result-status">Select</span>
+                  </button>
+                ))}
+              </div>
             </fieldset>
-            <div className="results" id="guest-search-results" role="listbox" aria-label="Matching guests" aria-live="polite">
-              {loading && <p className="quiet">Searching the register…</p>}
-              {searchError && <p className="form-error" role="alert">{searchError}</p>}
-              {!loading && !searchError && query.trim().length > 0 && matches.length === 0 && (
-                <p className="quiet">No matching record. Please speak with the event desk.</p>
-              )}
-              {query.trim().length > 0 && matches.slice(0, 3).map((guest) => (
-                <button
-                  className={`guest-result ${selected?.id === guest.id ? "selected" : ""}`}
-                  type="button"
-                  key={guest.id}
-                  onClick={() => setSelected(guest)}
-                  aria-pressed={selected?.id === guest.id}
-                  role="option"
-                  aria-selected={selected?.id === guest.id}
-                >
-                  <span>{guest.name}</span>
-                  <span>{selected?.id === guest.id ? "Selected" : "Select"}</span>
-                </button>
-              ))}
-            </div>
             <button className="primary-button" type="submit" disabled={!selected || submitting}>
-              {submitting ? "Checking you in…" : selected ? "Check in" : "Select your name"}
+              {submitting ? "Checking you in…" : selected ? "Confirm check-in" : "Select your name"}
             </button>
           </form>
         </section>
@@ -185,14 +201,11 @@ export function GuestCheckIn() {
 
 function Masthead() {
   return (
-    <header className="site-masthead">
-      <a className="brand-lockup" href="/" aria-label="RV University guest attendance">
-        <img src="/brand/rvu-lockup-gold.png" alt="RV University" />
+    <header className="guest-masthead">
+      <a className="guest-masthead__wordmark" href="/" aria-label="RV University guest attendance">
+        <img src="/brand/rvu-primary-lockup.png" alt="RV University — Go, change the world" />
       </a>
-      <p className="masthead-title">Guest attendance <span>Academic registry</span></p>
-      <div className="masthead-actions">
-        <a href="/staff/login">Staff access</a>
-      </div>
+      <a className="guest-masthead__staff" href="/staff/login">Staff access</a>
     </header>
   );
 }
