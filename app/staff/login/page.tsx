@@ -33,7 +33,9 @@ export default function StaffLoginPage() {
   return (
     <main className="guest-arrival-page staff-login-page">
       <header className="guest-masthead">
-        <a className="guest-masthead__wordmark" href="/" aria-label="RV University guest attendance">RV University</a>
+        <a className="guest-masthead__wordmark" href="/" aria-label="RV University guest attendance">
+          <img src="/brand/rvu-primary-lockup.png" alt="RV University — Go, change the world" />
+        </a>
         <a className="guest-masthead__staff" href="/">Guest check-in</a>
       </header>
       <div className="guest-arrival-shell">
