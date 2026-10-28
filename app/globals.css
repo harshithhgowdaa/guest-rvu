@@ -414,7 +414,7 @@ th,td { padding-right:7px; }
 .campus-moments__viewport {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 1.9 / 1;
+  aspect-ratio: 1.6 / 1;
   border-radius: 16px;
   background: var(--paper-deep);
   box-shadow: 0 12px 26px rgba(35, 48, 57, .12);
@@ -804,7 +804,7 @@ th,td { padding-right:7px; }
   .guest-arrival-orbit { margin-bottom: 20px; }
   .campus-moments { margin-top: 4px; }
   .guest-instructions { margin-top: 12px; }
-  .check-in-form { gap: 12px; margin-top: 24px; }
+  .check-in-form { gap: 12px; margin-top: 4px; }
 }
 
 @media (max-width: 380px) {
@@ -820,7 +820,7 @@ th,td { padding-right:7px; }
   .guest-arrival-orbit { margin-bottom: 26px; transform: scale(.92); }
   .campus-moments { max-width: 300px; margin-top: 2px; }
   .guest-arrival-panel h1 { font-size: clamp(2.5rem, 11vw, 3.25rem); }
-  .check-in-form { margin-top: 28px; }
+  .check-in-form { margin-top: 4px; }
   .results,
   .results:empty { min-height: 92px; }
 }
