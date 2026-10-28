@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { GlassIconReveal } from "@/components/ui/liquid-glass-logo-reveal";
 
 /* Background colour — identical to page body (--paper) and CSS overlay */
@@ -22,10 +22,21 @@ export function GuestArrivalIntro() {
     window.setTimeout(
       () => {
         setPhase("done");
-        document.getElementById("checkin-heading")?.focus();
+        window.scrollTo(0, 0);
+        document.getElementById("checkin-heading")?.focus({ preventScroll: true });
       },
       reducedMotion ? 0 : 600
     );
+  }, []);
+
+  useLayoutEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+
+    return () => {
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
   }, []);
 
   useEffect(() => {

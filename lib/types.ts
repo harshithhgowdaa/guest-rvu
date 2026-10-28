@@ -1,6 +1,7 @@
 export type Guest = {
   id: string;
   name: string;
+  batch?: string | null;
 };
 
 export type AttendanceRecord = {
@@ -14,6 +15,15 @@ export type CheckInResult =
   | { status: "not_found" };
 
 export type DashboardEntry = Guest & {
+  batch: string | null;
   checkedInAt: string | null;
   status: "present" | "pending";
+};
+
+export type BatchProgress = {
+  batch: string;
+  registered: number;
+  present: number;
+  pending: number;
+  percentage: number;
 };

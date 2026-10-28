@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { get, put } from "@vercel/blob";
+import { del, get, put } from "@vercel/blob";
 import { normalizeName } from "./normalize";
 import type {
   AttendanceRecord,
@@ -24,7 +24,7 @@ function isGuest(value: unknown): value is Guest {
   const guest = value as Record<string, unknown>;
   return ["id", "name"].every(
     (key) => typeof guest[key] === "string" && Boolean((guest[key] as string).trim())
-  );
+  ) && (guest.batch === undefined || guest.batch === null || typeof guest.batch === "string");
 }
 
 function isAttendanceRecord(value: unknown): value is AttendanceRecord {
@@ -52,7 +52,8 @@ export async function getRoster(): Promise<Guest[]> {
   const seenNames = new Set<string>();
   const roster = parsed.map((guest) => ({
     id: guest.id.trim(),
-    name: guest.name.trim()
+    name: guest.name.trim(),
+    batch: typeof guest.batch === "string" ? guest.batch.trim() || null : null
   }));
 
   for (const guest of roster) {
@@ -132,7 +133,10 @@ async function serializeWrite<T>(work: () => Promise<T>): Promise<T> {
 }
 
 export async function listBatches(): Promise<string[]> {
-  return [];
+  const roster = await getRoster();
+  return [...new Set(roster.map((guest) => guest.batch).filter((batch): batch is string => Boolean(batch)))].sort(
+    (a, b) => a.localeCompare(b)
+  );
 }
 
 export async function searchGuests(query?: string) {
@@ -221,18 +225,54 @@ export async function getDashboard(query?: string) {
       const checkedInAt = attendanceByGuest.get(guest.id) ?? null;
       return {
         ...guest,
+        batch: guest.batch ?? null,
         checkedInAt,
         status: checkedInAt ? ("present" as const) : ("pending" as const)
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
 
+  const batches = new Map<string, { registered: number; present: number }>();
+  for (const guest of roster) {
+    if (!guest.batch) continue;
+    const progress = batches.get(guest.batch) ?? { registered: 0, present: 0 };
+    progress.registered += 1;
+    if (attendanceByGuest.has(guest.id)) progress.present += 1;
+    batches.set(guest.batch, progress);
+  }
+
+  const batchProgress = [...batches.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([batch, progress]) => ({
+      batch,
+      registered: progress.registered,
+      present: progress.present,
+      pending: progress.registered - progress.present,
+      percentage: progress.registered ? Math.round((progress.present / progress.registered) * 100) : 0
+    }));
+
+  const present = roster.filter((guest) => attendanceByGuest.has(guest.id)).length;
+
   return {
     totals: {
       registered: roster.length,
-      present: attendanceByGuest.size,
-      pending: roster.length - attendanceByGuest.size
+      present,
+      pending: roster.length - present
     },
+    unassigned: roster.filter((guest) => !guest.batch).length,
+    batchProgress,
     entries
   };
+}
+
+export async function clearAttendance(): Promise<void> {
+  const roster = await getRoster();
+
+  if (usesBlobStorage()) {
+    if (roster.length === 0) return;
+    await del(roster.map((guest) => attendanceBlobPath(guest.id)));
+    return;
+  }
+
+  await serializeWrite(() => writeLocalAttendance([]));
 }
