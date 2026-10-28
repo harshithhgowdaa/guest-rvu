@@ -408,13 +408,13 @@ th,td { padding-right:7px; }
 .campus-moments {
   width: min(100%, 420px);
   align-self: center;
-  margin: clamp(14px, 2.8vh, 24px) auto 0;
+  margin: 8px auto 0;
 }
 
 .campus-moments__viewport {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 2.3 / 1;
+  aspect-ratio: 1.9 / 1;
   border-radius: 16px;
   background: var(--paper-deep);
   box-shadow: 0 12px 26px rgba(35, 48, 57, .12);
@@ -797,11 +797,12 @@ th,td { padding-right:7px; }
   }
   .guest-arrival-panel {
     flex: 1 0 auto;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 18px;
     padding: 25px 22px 22px;
   }
   .guest-arrival-orbit { margin-bottom: 20px; }
-  .campus-moments { margin-top: 14px; }
+  .campus-moments { margin-top: 4px; }
   .guest-instructions { margin-top: 12px; }
   .check-in-form { gap: 12px; margin-top: 24px; }
 }
@@ -817,7 +818,7 @@ th,td { padding-right:7px; }
   .guest-arrival-shell { padding-top: 8px; padding-bottom: 18px; }
   .guest-arrival-panel { padding-block: 24px; }
   .guest-arrival-orbit { margin-bottom: 26px; transform: scale(.92); }
-  .campus-moments { max-width: 300px; margin-top: 20px; }
+  .campus-moments { max-width: 300px; margin-top: 2px; }
   .guest-arrival-panel h1 { font-size: clamp(2.5rem, 11vw, 3.25rem); }
   .check-in-form { margin-top: 28px; }
   .results,
