@@ -25,18 +25,13 @@ export function GuestCheckIn() {
   }, [notice]);
 
   useEffect(() => {
-    if (query.trim().length < 2) {
-      setMatches([]);
-      setSearchError("");
-      return;
-    }
     const controller = new AbortController();
     const timer = window.setTimeout(async () => {
       setLoading(true);
       setSearchError("");
       try {
         const response = await fetch(
-          `/api/guest-search?query=${encodeURIComponent(query)}`,
+          `/api/guest-search?query=${encodeURIComponent(query.trim())}`,
           { signal: controller.signal }
         );
         if (!response.ok) {
@@ -61,7 +56,6 @@ export function GuestCheckIn() {
 
   function reset() {
     setQuery("");
-    setMatches([]);
     setSelected(null);
     setNotice(null);
   }
@@ -122,23 +116,43 @@ export function GuestCheckIn() {
       <div className="guest-workbench">
         <section className="checkin-station" aria-labelledby="checkin-heading">
           <h1 id="checkin-heading" tabIndex={-1}>Welcome to RV University</h1>
-          <p className="guest-instructions">Enter your name to check in.</p>
+          <p className="guest-instructions">Find your name to check in.</p>
           <form className="check-in-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
             <fieldset>
               <label className="name-label" htmlFor="guest-name">Your name</label>
-              <input id="guest-name" value={query} onChange={(event) => { setQuery(event.target.value); setSelected(null); }} placeholder="Enter your name" autoComplete="name" />
+              <input
+                id="guest-name"
+                value={query}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  setSelected(null);
+                }}
+                placeholder="Start typing your name"
+                autoComplete="name"
+              />
             </fieldset>
             <div className="results" aria-live="polite">
               {loading && <p className="quiet">Searching the register…</p>}
               {searchError && <p className="form-error" role="alert">{searchError}</p>}
-              {!loading && !searchError && query.trim().length >= 2 && matches.length === 0 && <p className="quiet">No matching record. Please speak with the event desk.</p>}
+              {!loading && !searchError && query.trim().length > 0 && matches.length === 0 && (
+                <p className="quiet">No matching record. Please speak with the event desk.</p>
+              )}
               {matches.map((guest) => (
-                <button className={`guest-result ${selected?.id === guest.id ? "selected" : ""}`} type="button" key={guest.id} onClick={() => setSelected(guest)} aria-pressed={selected?.id === guest.id}>
-                  <span>{guest.name}{matches.filter((match) => match.name === guest.name).length > 1 && <small>{guest.batch}</small>}</span><span>{selected?.id === guest.id ? "Selected" : "Select"}</span>
+                <button
+                  className={`guest-result ${selected?.id === guest.id ? "selected" : ""}`}
+                  type="button"
+                  key={guest.id}
+                  onClick={() => setSelected(guest)}
+                  aria-pressed={selected?.id === guest.id}
+                >
+                  <span>{guest.name}</span>
+                  <span>{selected?.id === guest.id ? "Selected" : "Select"}</span>
                 </button>
               ))}
             </div>
-            <button className="primary-button" type="submit" disabled={!selected || submitting}>{submitting ? "Checking you in…" : selected ? "Check in" : "Select your name"}</button>
+            <button className="primary-button" type="submit" disabled={!selected || submitting}>
+              {submitting ? "Checking you in…" : selected ? "Check in" : "Select your name"}
+            </button>
           </form>
         </section>
       </div>
@@ -147,9 +161,15 @@ export function GuestCheckIn() {
 }
 
 function Masthead() {
-  return <header className="site-masthead">
-    <a className="brand-lockup" href="/" aria-label="RV University guest attendance"><img src="/brand/rvu-lockup-gold.png" alt="RV University" /></a>
-    <p className="masthead-title">Guest attendance <span>Academic registry</span></p>
-    <div className="masthead-actions"><a href="/staff/login">Staff access</a></div>
-  </header>;
+  return (
+    <header className="site-masthead">
+      <a className="brand-lockup" href="/" aria-label="RV University guest attendance">
+        <img src="/brand/rvu-lockup-gold.png" alt="RV University" />
+      </a>
+      <p className="masthead-title">Guest attendance <span>Academic registry</span></p>
+      <div className="masthead-actions">
+        <a href="/staff/login">Staff access</a>
+      </div>
+    </header>
+  );
 }

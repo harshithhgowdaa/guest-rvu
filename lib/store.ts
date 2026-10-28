@@ -2,7 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { get, put } from "@vercel/blob";
-import { normalizeBatch, normalizeName } from "./normalize";
+import { normalizeName } from "./normalize";
 import type {
   AttendanceRecord,
   CheckInResult,
@@ -22,7 +22,7 @@ let writeQueue: Promise<void> = Promise.resolve();
 function isGuest(value: unknown): value is Guest {
   if (!value || typeof value !== "object") return false;
   const guest = value as Record<string, unknown>;
-  return ["id", "name", "batch"].every(
+  return ["id", "name"].every(
     (key) => typeof guest[key] === "string" && Boolean((guest[key] as string).trim())
   );
 }
@@ -45,21 +45,20 @@ async function readJson(filePath: string) {
 export async function getRoster(): Promise<Guest[]> {
   const parsed = await readJson(rosterPath());
   if (!Array.isArray(parsed) || !parsed.every(isGuest)) {
-    throw new Error("The guest roster must be an array of id, name, and batch entries.");
+    throw new Error("The guest roster must be an array of id and name entries.");
   }
 
   const seenIds = new Set<string>();
   const seenNames = new Set<string>();
   const roster = parsed.map((guest) => ({
     id: guest.id.trim(),
-    name: guest.name.trim(),
-    batch: normalizeBatch(guest.batch)
+    name: guest.name.trim()
   }));
 
   for (const guest of roster) {
-    const nameKey = `${normalizeBatch(guest.batch)}:${normalizeName(guest.name)}`;
+    const nameKey = normalizeName(guest.name);
     if (seenIds.has(guest.id) || seenNames.has(nameKey)) {
-      throw new Error("Guest IDs and names within a batch must be unique.");
+      throw new Error("Guest IDs and names must be unique.");
     }
     seenIds.add(guest.id);
     seenNames.add(nameKey);
@@ -132,22 +131,16 @@ async function serializeWrite<T>(work: () => Promise<T>): Promise<T> {
   }
 }
 
-export async function listBatches() {
-  const roster = await getRoster();
-  return [...new Set(roster.map((guest) => guest.batch))].sort((a, b) =>
-    a.localeCompare(b)
-  );
+export async function listBatches(): Promise<string[]> {
+  return [];
 }
 
-export async function searchGuests(query: string) {
-  const normalizedQuery = normalizeName(query);
-  if (!normalizedQuery) return [];
+export async function searchGuests(query?: string) {
+  const normalizedQuery = query ? normalizeName(query) : "";
   const roster = await getRoster();
+  if (!normalizedQuery) return roster.slice(0, 8);
   return roster
-    .filter(
-      (guest) =>
-        normalizeName(guest.name).includes(normalizedQuery)
-    )
+    .filter((guest) => normalizeName(guest.name).includes(normalizedQuery))
     .slice(0, 8);
 }
 
@@ -211,19 +204,17 @@ export async function checkIn(guestId: string): Promise<CheckInResult> {
   });
 }
 
-export async function getDashboard(batch?: string, query?: string) {
+export async function getDashboard(query?: string) {
   const roster = await getRoster();
   const attendance = await getAttendance(roster);
   const attendanceByGuest = new Map(
     attendance.map((record) => [record.guestId, record.checkedInAt])
   );
-  const normalizedBatch = batch ? normalizeBatch(batch) : "";
   const normalizedQuery = query ? normalizeName(query) : "";
 
   const entries: DashboardEntry[] = roster
     .filter(
       (guest) =>
-        (!normalizedBatch || guest.batch === normalizedBatch) &&
         (!normalizedQuery || normalizeName(guest.name).includes(normalizedQuery))
     )
     .map((guest) => {
@@ -236,22 +227,12 @@ export async function getDashboard(batch?: string, query?: string) {
     })
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const batches = [...new Set(roster.map((guest) => guest.batch))].sort();
-  const byBatch = batches.map((batchName) => {
-    const total = roster.filter((guest) => guest.batch === batchName).length;
-    const present = roster.filter(
-      (guest) => guest.batch === batchName && attendanceByGuest.has(guest.id)
-    ).length;
-    return { batch: batchName, total, present };
-  });
-
   return {
     totals: {
       registered: roster.length,
       present: attendanceByGuest.size,
       pending: roster.length - attendanceByGuest.size
     },
-    batches: byBatch,
     entries
   };
 }

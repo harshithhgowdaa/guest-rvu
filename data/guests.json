@@ -1,11 +1,10 @@
 [
-  { "id": "guest-001", "name": "Aarav Mehta", "batch": "Aster" },
-  { "id": "guest-002", "name": "Diya Sharma", "batch": "Aster" },
-  { "id": "guest-003", "name": "Ishaan Kapoor", "batch": "Aster" },
-  { "id": "guest-004", "name": "Kavya Nair", "batch": "Cedar" },
-  { "id": "guest-005", "name": "Rohan Deshpande", "batch": "Cedar" },
-  { "id": "guest-006", "name": "Sana Iyer", "batch": "Cedar" },
-  { "id": "guest-007", "name": "Arjun Rao", "batch": "Juniper" },
-  { "id": "guest-008", "name": "Mira Shah", "batch": "Juniper" },
-  { "id": "guest-009", "name": "Veer Malhotra", "batch": "Juniper" }
+  { "id": "guest-001", "name": "Shashikala" },
+  { "id": "guest-002", "name": "Ravi Shankar" },
+  { "id": "guest-003", "name": "Siva Kumar" },
+  { "id": "guest-004", "name": "Dhanush" },
+  { "id": "guest-005", "name": "Sachin" },
+  { "id": "guest-006", "name": "Gopal" },
+  { "id": "guest-007", "name": "Shalini" },
+  { "id": "guest-008", "name": "Girish Pahadiya" }
 ]

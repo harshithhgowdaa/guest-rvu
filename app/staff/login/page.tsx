@@ -34,7 +34,7 @@ export default function StaffLoginPage() {
     <main className="staff-gate">
       <header className="site-masthead"><a className="brand-lockup" href="/" aria-label="RV University guest attendance"><img src="/brand/rvu-lockup-gold.png" alt="RV University" /></a><p className="masthead-title">Guest attendance <span>Staff workspace</span></p><div className="masthead-actions"><a href="/">Guest check-in</a></div></header>
       <div className="staff-gate-content">
-        <section className="staff-gate-brief"><p className="section-tag">Restricted access</p><h1>Attendance register</h1><p>Use the shared event code to view live arrival records and batch progress.</p></section>
+        <section className="staff-gate-brief"><p className="section-tag">Restricted access</p><h1>Attendance register</h1><p>Use the shared event code to view live arrival records.</p></section>
         <form className="staff-login" onSubmit={submit}>
         <p className="section-tag">Staff authentication</p>
         <h2>Enter shared code</h2>

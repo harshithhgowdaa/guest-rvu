@@ -1,7 +1,6 @@
 export type Guest = {
   id: string;
   name: string;
-  batch: string;
 };
 
 export type AttendanceRecord = {

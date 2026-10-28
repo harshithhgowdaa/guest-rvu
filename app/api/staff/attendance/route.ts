@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
   if (!isValidStaffSession(cookieStore.get(staffCookieName)?.value)) {
     return NextResponse.json({ error: "Staff access required." }, { status: 401 });
   }
-  const batch = request.nextUrl.searchParams.get("batch") ?? undefined;
   const query = request.nextUrl.searchParams.get("query") ?? undefined;
-  return NextResponse.json(await getDashboard(batch, query));
+  return NextResponse.json(await getDashboard(query));
 }

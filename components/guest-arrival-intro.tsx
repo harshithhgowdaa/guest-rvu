@@ -1,51 +1,74 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { GlassIconReveal } from "@/components/ui/liquid-glass-logo-reveal";
 
-const INTRO_KEY = "rvu-guest-arrival-intro-seen";
+/* Background colour — identical to page body (--paper) and CSS overlay */
+const BG = "#f8f7f3";
 
-/** A short first-visit identity moment; subsequent attendance tasks never wait for it. */
+/**
+ * Full-screen liquid glass logo reveal that plays on every page load/refresh.
+ * The transparent crest logo is magnified and refractions ripple across its rim,
+ * then smoothly fades away to display the check-in interface.
+ */
 export function GuestArrivalIntro() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [isClosing, setIsClosing] = useState(false);
+  const [phase, setPhase] = useState<"showing" | "fading" | "done">("showing");
   const isFinishing = useRef(false);
 
   const finish = useCallback(() => {
     if (isFinishing.current) return;
-
     isFinishing.current = true;
-    window.sessionStorage.setItem(INTRO_KEY, "true");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setIsClosing(true);
-
-    window.setTimeout(() => {
-      setIsVisible(false);
-      document.getElementById("checkin-heading")?.focus();
-    }, reducedMotion ? 0 : 280);
+    setPhase("fading");
+    window.setTimeout(
+      () => {
+        setPhase("done");
+        document.getElementById("checkin-heading")?.focus();
+      },
+      reducedMotion ? 0 : 600
+    );
   }, []);
 
   useEffect(() => {
-    if (window.sessionStorage.getItem(INTRO_KEY)) {
-      setIsVisible(false);
-      return;
-    }
-
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const timer = window.setTimeout(finish, reducedMotion ? 180 : 1650);
-    return () => window.clearTimeout(timer);
+    const delay = reducedMotion ? 200 : 4200;
+    const t = window.setTimeout(finish, delay);
+    return () => window.clearTimeout(t);
   }, [finish]);
 
-  if (!isVisible) return null;
+  if (phase === "done") return null;
 
   return (
-    <section className={`guest-arrival-intro ${isClosing ? "is-closing" : ""}`} aria-label="RV University arrival">
-      <div className="guest-arrival-intro__mark" aria-hidden="true">
-        <img src="/brand/rvu-crest-reveal.jpg" alt="" />
-      </div>
-      <div className="guest-arrival-intro__footer">
-        <p>RV University</p>
-        <button type="button" onClick={finish}>Skip introduction</button>
-      </div>
-    </section>
+    <div
+      className={`guest-arrival-intro-glass${phase === "fading" ? " is-fading" : ""}`}
+      aria-label="RV University — loading"
+      role="img"
+    >
+      <GlassIconReveal
+        logo="/brand/rvu-crest-clean.png"
+        look="light"
+        background={BG}
+        logoColor="#233039"
+        loop={false}
+        hold={0.4}
+        tileSize={360}
+        logoScale={0.88}
+        finalScale={0.92}
+        label="RV University crest"
+        className="glass-reveal-tile"
+        tuning={{
+          startZoom: 2.2,
+          present: 2.4,
+          glide: 2.2,
+          dispersion: 1.6,
+          colorBleed: 1.25,
+          sheen: 0.9,
+          bevelWidth: 0.14,
+          corner: 4.8,
+          opticalDepth: 1.0,
+          swell: 0.3,
+        }}
+      />
+    </div>
   );
 }
