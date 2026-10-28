@@ -223,18 +223,8 @@ function CampusMomentsCarousel() {
       className={`campus-moments${isPaused ? " is-paused" : ""}`}
       aria-label="A moving gallery of student life at RV University"
     >
-      <div className="campus-moments__viewport">
-        <div className="campus-moments__track">
-          {[0, 1].map((copy) => (
-            <div className="campus-moments__group" key={copy} aria-hidden="true">
-              {CAMPUS_MOMENTS.map((moment) => (
-                <figure className="campus-moments__slide" key={moment.src}>
-                  <img src={moment.src} alt="" />
-                </figure>
-              ))}
-            </div>
-          ))}
-        </div>
+      <div className="campus-moments__viewport" ref={viewportRef}>
+        <div className="campus-moments__track" ref={trackRef} aria-hidden="true" />
         <button
           className="campus-moments__pause"
           type="button"
