@@ -458,15 +458,6 @@ th,td { padding-right:7px; }
   height: 15px;
 }
 
-.campus-moments.is-paused .campus-moments__track {
-  animation-play-state: paused;
-}
-
-@keyframes campus-moments-scroll {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(calc(0px - var(--carousel-cycle-width, 0px)), 0, 0); }
-}
-
 .guest-arrival-panel:not(.guest-arrival-panel--confirmation) h1#checkin-heading:focus {
   outline: none;
 }
@@ -824,7 +815,7 @@ th,td { padding-right:7px; }
 
 @media (prefers-reduced-motion: reduce) {
   .guest-arrival-orbit,
-  .campus-moments__track,
+  .campus-moments__canvas,
   .guest-confirmation-mark,
   .guest-arrival-panel .primary-button,
   .guest-masthead__staff,

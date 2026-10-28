@@ -12,6 +12,14 @@ type Notice = {
   message?: string;
 };
 
+const CAMPUS_MOMENT_SOURCES = [
+  "/programmes/postgraduate.jpg",
+  "/programmes/computing.jpg",
+  "/programmes/media.jpg",
+  "/programmes/law.jpg",
+  "/programmes/health.jpg",
+];
+
 export function GuestCheckIn() {
   const [query, setQuery] = useState("");
   const [matches, setMatches] = useState<Guest[]>([]);
@@ -204,31 +212,91 @@ export function GuestCheckIn() {
 
 function CampusMomentsCarousel() {
   const [isPaused, setIsPaused] = useState(false);
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const offsetRef = useRef(0);
 
-  useLayoutEffect(() => {
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!viewport || !track) return;
+  useEffect(() => {
+    let cancelled = false;
+    void Promise.all(CAMPUS_MOMENT_SOURCES.map(async (src) => {
+      const image = new Image();
+      image.src = src;
+      try {
+        await image.decode();
+      } catch {
+        // Keep the remaining campus photos available if one file cannot decode.
+      }
+      return image;
+    })).then((images) => {
+      if (!cancelled) imagesRef.current = images;
+    });
 
-    const updateCycleWidth = () => {
-      track.style.setProperty("--carousel-cycle-width", `${viewport.getBoundingClientRect().height * (1700 / 262)}px`);
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    let frame = 0;
+    let previousTime = 0;
+    const render = (time: number) => {
+      const canvas = canvasRef.current;
+      const images = imagesRef.current;
+      const bounds = canvas?.getBoundingClientRect();
+
+      if (canvas && bounds && images.length === CAMPUS_MOMENT_SOURCES.length && bounds.width && bounds.height) {
+        const context = canvas.getContext("2d");
+        if (context) {
+          const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+          const pixelWidth = Math.round(bounds.width * pixelRatio);
+          const pixelHeight = Math.round(bounds.height * pixelRatio);
+          if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+            canvas.width = pixelWidth;
+            canvas.height = pixelHeight;
+          }
+
+          context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+          context.clearRect(0, 0, bounds.width, bounds.height);
+
+          const slideWidth = Math.min(340, Math.max(240, bounds.width * .78));
+          const cycleWidth = slideWidth * images.length;
+          if (previousTime) offsetRef.current = (offsetRef.current + (time - previousTime) * cycleWidth / 26000) % cycleWidth;
+          previousTime = time;
+
+          const wholeSlides = Math.floor(offsetRef.current / slideWidth);
+          const partialSlide = offsetRef.current % slideWidth;
+          const slots = Math.ceil(bounds.width / slideWidth) + 1;
+          for (let slot = 0; slot <= slots; slot += 1) {
+            const image = images[(wholeSlides + slot) % images.length];
+            const x = slot * slideWidth - partialSlide;
+            const scale = Math.max(slideWidth / image.naturalWidth, bounds.height / image.naturalHeight);
+            const sourceWidth = slideWidth / scale;
+            const sourceHeight = bounds.height / scale;
+            const sourceX = (image.naturalWidth - sourceWidth) / 2;
+            const sourceY = (image.naturalHeight - sourceHeight) / 2;
+            context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, 0, slideWidth, bounds.height);
+          }
+        }
+      }
+
+      frame = window.requestAnimationFrame(render);
     };
 
-    updateCycleWidth();
-    const observer = new ResizeObserver(updateCycleWidth);
-    observer.observe(viewport);
-    return () => observer.disconnect();
-  }, []);
+    frame = window.requestAnimationFrame(render);
+    return () => window.cancelAnimationFrame(frame);
+  }, [isPaused]);
 
   return (
     <section
       className={`campus-moments${isPaused ? " is-paused" : ""}`}
       aria-label="A moving gallery of student life at RV University"
     >
-      <div className="campus-moments__viewport" ref={viewportRef}>
-        <div className="campus-moments__track" ref={trackRef} aria-hidden="true" />
+      <div className="campus-moments__viewport">
+        <canvas
+          className="campus-moments__canvas"
+          ref={canvasRef}
+          aria-hidden="true"
+        />
         <button
           className="campus-moments__pause"
           type="button"
