@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Check, CircleAlert } from "lucide-react";
 import type { Guest } from "@/lib/types";
-import { GuestArrivalIntro } from "@/components/guest-arrival-intro";
 import { BeamSearch } from "@/components/ui/beam-search";
 
 type Notice = {
@@ -135,18 +134,14 @@ export function GuestCheckIn() {
 
   return (
     <main className="guest-arrival-page">
-      <GuestArrivalIntro />
       <Masthead />
       <div className="guest-arrival-shell">
         <section
           className={`guest-arrival-panel ${searchFocused ? "is-searching" : ""} ${selected ? "has-selection" : ""}`}
           aria-labelledby="checkin-heading"
         >
-          <div className="guest-arrival-orbit" aria-hidden="true">
-            <img src="/brand/rvu-crest-clean.png" alt="" />
-          </div>
-          <h1 id="checkin-heading" tabIndex={-1}>Find your name</h1>
-          <p className="guest-instructions">A small welcome, then you’re all set.</p>
+          <h1 id="checkin-heading" tabIndex={-1}>Welcome to RV University</h1>
+          <p className="guest-instructions">Find your name below to check in.</p>
           <form className="check-in-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
             <fieldset className="guest-search-control">
               <legend className="sr-only">Search for your name</legend>

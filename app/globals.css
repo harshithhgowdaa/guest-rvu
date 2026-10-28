@@ -347,8 +347,8 @@ th,td { padding-right:7px; }
 
 .guest-arrival-orbit {
   position: relative;
-  width: 84px;
-  height: 84px;
+  width: 104px;
+  height: 104px;
   display: grid;
   place-items: center;
   align-self: center;
@@ -369,21 +369,21 @@ th,td { padding-right:7px; }
 }
 
 .guest-arrival-orbit::before {
-  width: 98px;
-  height: 98px;
+  width: 120px;
+  height: 120px;
 }
 
 .guest-arrival-orbit::after {
-  width: 112px;
-  height: 112px;
+  width: 136px;
+  height: 136px;
   border-color: rgba(35, 48, 57, .1);
 }
 
 .guest-arrival-orbit img {
   position: relative;
   z-index: 1;
-  width: 35px;
-  height: 48px;
+  width: 52px;
+  height: 72px;
   object-fit: contain;
 }
 
@@ -398,6 +398,11 @@ th,td { padding-right:7px; }
   letter-spacing: -.04em;
   line-height: .92;
   text-wrap: balance;
+}
+
+.guest-arrival-panel h1#checkin-heading {
+  max-width: 14ch;
+  font-size: clamp(2.75rem, 8vw, 4rem);
 }
 
 .guest-arrival-panel:not(.guest-arrival-panel--confirmation) h1#checkin-heading:focus {
@@ -575,6 +580,54 @@ th,td { padding-right:7px; }
   background: var(--muted);
   box-shadow: none;
   opacity: 1;
+}
+
+.staff-login-panel h1 {
+  max-width: 10ch;
+  font-size: clamp(2.6rem, 9vw, 3.8rem);
+}
+
+.staff-login-panel .guest-instructions {
+  max-width: 32ch;
+}
+
+.staff-access-form {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  margin-top: clamp(34px, 7vh, 58px);
+  text-align: left;
+}
+
+.staff-access-form label {
+  color: var(--charcoal);
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.staff-access-form input {
+  min-height: 62px;
+  border: 1px solid rgba(35, 48, 57, .22);
+  border-radius: 18px;
+  padding-inline: 18px;
+  background: var(--paper);
+  box-shadow: 0 8px 18px rgba(35, 48, 57, .08);
+  color: var(--charcoal);
+  font-size: 1rem;
+}
+
+.staff-access-form input:focus-visible {
+  border-color: rgba(0, 72, 84, .78);
+  outline-color: var(--gold);
+}
+
+.staff-access-form .primary-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.staff-access-form .form-error {
+  padding: 4px 2px;
 }
 
 .guest-arrival-panel.is-searching .guest-arrival-orbit,
