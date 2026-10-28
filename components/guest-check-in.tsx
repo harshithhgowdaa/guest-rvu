@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Check, CircleAlert, Pause, Play } from "lucide-react";
 import type { Guest } from "@/lib/types";
 import { BeamSearch } from "@/components/ui/beam-search";
@@ -208,6 +208,23 @@ export function GuestCheckIn() {
 
 function CampusMomentsCarousel() {
   const [isPaused, setIsPaused] = useState(false);
+  const firstGroupRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const group = firstGroupRef.current;
+    const track = trackRef.current;
+    if (!group || !track) return;
+
+    const updateCycleDistance = () => {
+      track.style.setProperty("--carousel-cycle-width", `${group.getBoundingClientRect().width}px`);
+    };
+
+    updateCycleDistance();
+    const observer = new ResizeObserver(updateCycleDistance);
+    observer.observe(group);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
