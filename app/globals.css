@@ -645,6 +645,13 @@ th,td { padding-right:7px; }
   .guest-arrival-shell { min-height: 0; padding-top: 12px; }
 }
 
+@media (max-width: 720px) {
+  .guest-arrival-panel { padding: 25px 22px 22px; }
+  .guest-arrival-orbit { margin-bottom: 20px; }
+  .guest-instructions { margin-top: 12px; }
+  .check-in-form { gap: 12px; margin-top: 24px; }
+}
+
 @media (max-width: 380px) {
   .guest-masthead { min-height: 82px; gap: 10px; padding-inline: 16px; }
   .guest-masthead__wordmark { width: 118px; height: 58px; }
