@@ -738,8 +738,8 @@ th,td { padding-right:7px; }
   height: 100%;
   display: block;
   background: var(--gold);
-  mask: url("/brand/rvu-crest-gold-mask.png") center / contain no-repeat;
-  -webkit-mask: url("/brand/rvu-crest-gold-mask.png") center / contain no-repeat;
+  mask: url("/brand/rvu-crest-clean.png") center / contain no-repeat;
+  -webkit-mask: url("/brand/rvu-crest-clean.png") center / contain no-repeat;
 }
 
 .guest-confirmation-mark svg {
