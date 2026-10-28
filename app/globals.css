@@ -406,9 +406,9 @@ th,td { padding-right:7px; }
 }
 
 .campus-moments {
-  width: min(100%, 360px);
+  width: min(100%, 420px);
   align-self: center;
-  margin: clamp(26px, 5vh, 40px) auto 0;
+  margin: clamp(14px, 2.8vh, 24px) auto 0;
 }
 
 .campus-moments__viewport {
@@ -801,7 +801,7 @@ th,td { padding-right:7px; }
     padding: 25px 22px 22px;
   }
   .guest-arrival-orbit { margin-bottom: 20px; }
-  .campus-moments { margin-top: 24px; }
+  .campus-moments { margin-top: 14px; }
   .guest-instructions { margin-top: 12px; }
   .check-in-form { gap: 12px; margin-top: 24px; }
 }
