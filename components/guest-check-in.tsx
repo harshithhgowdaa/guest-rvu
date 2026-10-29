@@ -142,7 +142,7 @@ export function GuestCheckIn() {
               {notice.type === "success" ? "We’re delighted to have you with us." : notice.type === "already" ? "You’re already on the list" : "We couldn’t check you in"}
             </h1>
             <p>
-              {notice.type === "success" && `${notice.name}, have a wonderful day!`}
+              {notice.type === "success" && `Dear ${notice.name}, have a wonderful evening!`}
               {notice.type === "already" && `${notice.name} has already been marked present.`}
               {notice.type === "error" && notice.message}
             </p>
