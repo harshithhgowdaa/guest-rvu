@@ -60,6 +60,26 @@
     "batch": "2014"
   },
   {
+    "id": "xlri-71c0169017a6ac0dbf285a1d",
+    "name": "Dr. Madhavi Sethi",
+    "batch": null
+  },
+  {
+    "id": "xlri-a5d32d698861c840b4be04ab",
+    "name": "Dr. Manjesha",
+    "batch": null
+  },
+  {
+    "id": "xlri-0f6d0f82f9d52f91a87d47d8",
+    "name": "Dr. Ram Kumar Kakani",
+    "batch": null
+  },
+  {
+    "id": "xlri-67e08d0fe5f1a6e168b8323c",
+    "name": "Dr. Sahana D Gowda",
+    "batch": null
+  },
+  {
     "id": "xlri-f3635c4958e096fa06d3fb27",
     "name": "Dr. Victor Prasad Madeti",
     "batch": "2018"
@@ -243,11 +263,6 @@
     "id": "xlri-468031cd148bcb314b25db3e",
     "name": "Rajarshi Banerjee",
     "batch": "2004"
-  },
-  {
-    "id": "xlri-0f6d0f82f9d52f91a87d47d8",
-    "name": "Ram Kumar Kakani",
-    "batch": null
   },
   {
     "id": "xlri-643fd72729c975e277514493",
