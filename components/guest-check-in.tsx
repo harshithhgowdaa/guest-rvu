@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, CircleAlert, Pause, Play } from "lucide-react";
+import { Check, CircleAlert } from "lucide-react";
 import type { Guest } from "@/lib/types";
 import { BeamSearch } from "@/components/ui/beam-search";
 import { GuestArrivalIntro } from "@/components/guest-arrival-intro";
@@ -12,14 +12,6 @@ type Notice = {
   name?: string;
   message?: string;
 };
-
-const CAMPUS_MOMENT_SOURCES = [
-  "/programmes/postgraduate.jpg",
-  "/programmes/computing.jpg",
-  "/programmes/media.jpg",
-  "/programmes/law.jpg",
-  "/programmes/health.jpg",
-];
 
 export function GuestCheckIn() {
   const [query, setQuery] = useState("");
@@ -188,9 +180,8 @@ export function GuestCheckIn() {
           aria-labelledby="checkin-heading"
         >
           <h1 id="checkin-heading" tabIndex={-1}>
-            Welcome to XLRI Alumni Bengaluru<br />Get Together
+            Welcome to XLRI Alumni (Bengaluru)<br />Get Together
           </h1>
-          <CampusMomentsCarousel />
           <form className="check-in-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
             <p className="guest-instructions">Find your name below to check in.</p>
             <fieldset className="guest-search-control">
@@ -301,128 +292,6 @@ export function GuestCheckIn() {
         </section>
       </div>
     </main>
-  );
-}
-
-function CampusMomentsCarousel() {
-  const [isPaused, setIsPaused] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
-  const stripRef = useRef<HTMLCanvasElement | null>(null);
-  const offsetRef = useRef(0);
-
-  useEffect(() => {
-    let cancelled = false;
-    void Promise.all(CAMPUS_MOMENT_SOURCES.map(async (src) => {
-      const image = new Image();
-      image.src = src;
-      try {
-        await image.decode();
-      } catch {
-        // Keep the remaining campus photos available if one file cannot decode.
-      }
-      return image;
-    })).then((images) => {
-      if (!cancelled) imagesRef.current = images;
-    });
-
-    return () => { cancelled = true; };
-  }, []);
-
-  useEffect(() => {
-    if (isPaused) return;
-
-    let frame = 0;
-    let previousTime = 0;
-    const render = (time: number) => {
-      const canvas = canvasRef.current;
-      const images = imagesRef.current;
-      const bounds = canvas?.getBoundingClientRect();
-
-      if (canvas && bounds && images.length === CAMPUS_MOMENT_SOURCES.length && bounds.width && bounds.height) {
-        const context = canvas.getContext("2d");
-        if (context) {
-          const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-          const pixelWidth = Math.round(bounds.width * pixelRatio);
-          const pixelHeight = Math.round(bounds.height * pixelRatio);
-          if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
-            canvas.width = pixelWidth;
-            canvas.height = pixelHeight;
-          }
-
-          const slideWidth = Math.min(340, Math.max(240, bounds.width * .78));
-          const slidePixels = Math.round(slideWidth * pixelRatio);
-          const cyclePixels = slidePixels * images.length;
-          const stripWidth = cyclePixels * 2;
-          let strip = stripRef.current;
-
-          if (!strip || strip.width !== stripWidth || strip.height !== pixelHeight) {
-            strip = document.createElement("canvas");
-            strip.width = stripWidth;
-            strip.height = pixelHeight;
-            const stripContext = strip.getContext("2d");
-
-            if (stripContext) {
-              stripContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-              const renderedSlideWidth = slidePixels / pixelRatio;
-              const renderedHeight = pixelHeight / pixelRatio;
-
-              for (let copy = 0; copy < 2; copy += 1) {
-                images.forEach((image, index) => {
-                  const scale = Math.max(renderedSlideWidth / image.naturalWidth, renderedHeight / image.naturalHeight);
-                  const sourceWidth = renderedSlideWidth / scale;
-                  const sourceHeight = renderedHeight / scale;
-                  const sourceX = (image.naturalWidth - sourceWidth) / 2;
-                  const sourceY = (image.naturalHeight - sourceHeight) / 2;
-                  const x = (copy * images.length + index) * renderedSlideWidth;
-                  stripContext.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, 0, renderedSlideWidth, renderedHeight);
-                });
-              }
-
-              stripRef.current = strip;
-            }
-          }
-
-          if (previousTime) offsetRef.current = (offsetRef.current + (time - previousTime) * cyclePixels / 26000) % cyclePixels;
-          previousTime = time;
-
-          if (stripRef.current) {
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(stripRef.current, offsetRef.current, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
-          }
-        }
-      }
-
-      frame = window.requestAnimationFrame(render);
-    };
-
-    frame = window.requestAnimationFrame(render);
-    return () => window.cancelAnimationFrame(frame);
-  }, [isPaused]);
-
-  return (
-    <section
-      className={`campus-moments${isPaused ? " is-paused" : ""}`}
-      aria-label="A moving gallery of student life at RV University"
-    >
-      <div className="campus-moments__viewport">
-        <canvas
-          className="campus-moments__canvas"
-          ref={canvasRef}
-          aria-hidden="true"
-        />
-        <button
-          className="campus-moments__pause"
-          type="button"
-          aria-label={isPaused ? "Resume moving images" : "Pause moving images"}
-          aria-pressed={isPaused}
-          onClick={() => setIsPaused((paused) => !paused)}
-        >
-          {isPaused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
-        </button>
-      </div>
-    </section>
   );
 }
 
