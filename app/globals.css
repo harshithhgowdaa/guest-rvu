@@ -284,8 +284,8 @@ th,td { padding-right:7px; }
 .guest-masthead__wordmark {
   position: absolute;
   left: 50%;
-  width: clamp(126px, 34vw, 190px);
-  height: 68px;
+  width: clamp(148px, 40vw, 212px);
+  height: 78px;
   display: block;
   flex: 0 0 auto;
   transform: translateX(-50%);
@@ -894,7 +894,7 @@ th,td { padding-right:7px; }
 
 @media (max-width: 380px) {
   .guest-masthead { min-height: 82px; gap: 10px; padding-inline: 16px; }
-  .guest-masthead__wordmark { width: 118px; height: 58px; }
+  .guest-masthead__wordmark { width: 140px; height: 72px; }
   .guest-masthead__staff { min-height: 40px; padding-inline: 12px; font-size: .66rem; }
   .guest-arrival-shell { min-height: 0; padding-top: 8px; }
 }
