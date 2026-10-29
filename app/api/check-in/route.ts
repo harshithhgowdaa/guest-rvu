@@ -1,7 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkIn, registerGuestAndCheckIn } from "@/lib/store";
+import { getTableNumber } from "@/lib/seating";
+import type { CheckInResult } from "@/lib/types";
 
 export const runtime = "nodejs";
+
+function includeSeating(result: CheckInResult): CheckInResult {
+  if (result.status === "not_found") return result;
+  return {
+    ...result,
+    guest: {
+      ...result.guest,
+      tableNumber: getTableNumber(result.guest.id)
+    }
+  };
+}
 
 export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => null)) as {
@@ -12,7 +25,7 @@ export async function POST(request: NextRequest) {
 
   try {
     if (body && typeof body.guestId === "string") {
-      const result = await checkIn(body.guestId);
+      const result = includeSeating(await checkIn(body.guestId));
       if (result.status === "not_found") {
         return NextResponse.json(result, { status: 404 });
       }
@@ -28,7 +41,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await registerGuestAndCheckIn(name, batch);
+    const result = includeSeating(await registerGuestAndCheckIn(name, batch));
     return NextResponse.json(result);
   } catch {
     return NextResponse.json(

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { Download, RefreshCw } from "lucide-react";
 import type { BatchProgress, DashboardEntry } from "@/lib/types";
 import { usePageTopReset } from "@/components/use-page-top-reset";
 
@@ -29,6 +29,7 @@ export function StaffDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [justUpdated, setJustUpdated] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const requestInFlight = useRef(false);
@@ -87,6 +88,37 @@ export function StaffDashboard() {
       // Return to the login screen even if the logout request cannot complete.
     } finally {
       window.location.assign("/staff/login");
+    }
+  }
+
+  async function downloadAnalytics() {
+    if (isDownloading) return;
+    setIsDownloading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/staff/analytics", { cache: "no-store" });
+      if (response.status === 401) {
+        window.location.assign("/staff/login");
+        return;
+      }
+      if (!response.ok) throw new Error("The report could not be generated.");
+
+      const blob = await response.blob();
+      const filename = response.headers.get("content-disposition")?.match(/filename="?([^";]+)"?/i)?.[1]
+        ?? "xlri-alumni-bengaluru-get-together-attendance.xlsx";
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    } catch {
+      setError("The analytics report couldn’t be downloaded. Please try again.");
+    } finally {
+      setIsDownloading(false);
     }
   }
 
@@ -168,6 +200,15 @@ export function StaffDashboard() {
             <span>Auto-refreshes every 15 seconds</span>
           </p>
           <div className="staff-console__refresh-actions">
+            <button
+              className="staff-console__download-button"
+              type="button"
+              onClick={() => void downloadAnalytics()}
+              disabled={isDownloading || isLoading || !dashboard}
+            >
+              <Download aria-hidden="true" size={17} />
+              {isDownloading ? "Preparing report…" : "Download analytics"}
+            </button>
             <button
               className="staff-console__clear-button"
               type="button"

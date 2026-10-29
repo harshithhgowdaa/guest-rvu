@@ -10,6 +10,7 @@ import { usePageTopReset } from "@/components/use-page-top-reset";
 type Notice = {
   type: "success" | "already" | "error";
   name?: string;
+  tableNumber?: string | null;
   message?: string;
 };
 
@@ -128,9 +129,9 @@ export function GuestCheckIn() {
         error?: string;
       };
       if (payload.status === "checked_in") {
-        setNotice({ type: "success", name: payload.guest?.name });
+        setNotice({ type: "success", name: payload.guest?.name, tableNumber: payload.guest?.tableNumber });
       } else if (payload.status === "already_checked_in") {
-        setNotice({ type: "already", name: payload.guest?.name });
+        setNotice({ type: "already", name: payload.guest?.name, tableNumber: payload.guest?.tableNumber });
       } else if (showGuestEntry) {
         setManualError(payload.error ?? "We couldn’t add your details. Please check them and try again.");
       } else {
@@ -169,6 +170,13 @@ export function GuestCheckIn() {
               {notice.type === "success" && `Dear ${notice.name}, have a wonderful evening!`}
               {notice.type === "already" && `${notice.name} has already been marked present.`}
               {notice.type === "error" && notice.message}
+              {(notice.type === "success" || notice.type === "already") && (
+                <span className="guest-table-assignment">
+                  {notice.tableNumber
+                    ? <>Please be seated at <strong>Table {notice.tableNumber}</strong>.</>
+                    : "Please ask a member of the event team to confirm your table."}
+                </span>
+              )}
             </p>
             <button className="guest-secondary-action" onClick={reset}>Check in another guest</button>
           </section>

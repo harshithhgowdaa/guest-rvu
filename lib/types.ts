@@ -2,6 +2,7 @@ export type Guest = {
   id: string;
   name: string;
   batch?: string | null;
+  tableNumber?: string | null;
 };
 
 export type AttendanceRecord = {

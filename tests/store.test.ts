@@ -7,9 +7,11 @@ import test from "node:test";
 test("a missing attendance file is created and concurrent check-ins remain idempotent", async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), "attendance-test-"));
   process.env.ATTENDANCE_DATA_DIR = directory;
-  const { checkIn, getDashboard } = await import("../lib/store");
+  const { checkIn, getDashboard, getRoster } = await import("../lib/store");
+  const [guest] = await getRoster();
+  assert.ok(guest);
 
-  const results = await Promise.all(Array.from({ length: 5 }, () => checkIn("guest-001")));
+  const results = await Promise.all(Array.from({ length: 5 }, () => checkIn(guest.id)));
   assert.equal(results.filter((result) => result.status === "checked_in").length, 1);
   assert.equal(results.filter((result) => result.status === "already_checked_in").length, 4);
 
