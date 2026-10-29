@@ -13,6 +13,13 @@ type Notice = {
   message?: string;
 };
 
+const FIRST_BATCH_YEAR = 1950;
+const CURRENT_BATCH_YEAR = new Date().getFullYear();
+const BATCH_YEARS = Array.from(
+  { length: CURRENT_BATCH_YEAR - FIRST_BATCH_YEAR + 1 },
+  (_, index) => String(CURRENT_BATCH_YEAR - index)
+);
+
 export function GuestCheckIn() {
   const [query, setQuery] = useState("");
   const [matches, setMatches] = useState<Guest[]>([]);
@@ -100,8 +107,8 @@ export function GuestCheckIn() {
   }
 
   async function submit() {
-    if (showGuestEntry && (!manualName.trim() || !/^[1-9]\d{0,3}-(?:\d{2}|\d{4})$/.test(manualBatch.trim()))) {
-      setManualError("Enter your name and batch in number-year format, such as 2-2024.");
+    if (showGuestEntry && (!manualName.trim() || !/^(?:19|20)\d{2}$/.test(manualBatch.trim()))) {
+      setManualError("Enter your name and choose a four-digit batch year.");
       return;
     }
     if (!showGuestEntry && !selected) return;
@@ -263,17 +270,15 @@ export function GuestCheckIn() {
                   />
                 </label>
                 <label>
-                  <span>Batch <small>(number-year)</small></span>
-                  <input
-                    type="text"
+                  <span>Batch year</span>
+                  <select
                     value={manualBatch}
                     onChange={(event) => setManualBatch(event.target.value)}
-                    placeholder="e.g. 2-2024"
-                    pattern="[1-9][0-9]{0,3}-([0-9]{2}|[0-9]{4})"
-                    title="Use number-year format, such as 2-2024."
-                    autoComplete="off"
                     required
-                  />
+                  >
+                    <option value="" disabled>Choose your year</option>
+                    {BATCH_YEARS.map((year) => <option key={year} value={year}>{year}</option>)}
+                  </select>
                 </label>
                 {manualError && <p className="form-error" role="alert">{manualError}</p>}
                 <button className="primary-button" type="submit" disabled={submitting}>

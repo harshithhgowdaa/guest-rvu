@@ -21,9 +21,9 @@ export async function POST(request: NextRequest) {
 
     const name = typeof body?.name === "string" ? body.name.trim().replace(/\s+/g, " ") : "";
     const batch = typeof body?.batch === "string" ? body.batch.trim().replace(/\s*-\s*/g, "-") : "";
-    if (!name || name.length > 100 || !/^[1-9]\d{0,3}-(?:\d{2}|\d{4})$/.test(batch)) {
+    if (!name || name.length > 100 || !/^(?:19|20)\d{2}$/.test(batch)) {
       return NextResponse.json(
-        { error: "Enter your name and a batch in number-year format, such as 2-2024." },
+        { error: "Enter your name and choose a four-digit batch year." },
         { status: 400 }
       );
     }

@@ -667,7 +667,8 @@ th,td { padding-right:7px; }
   font-weight: 400;
 }
 
-.guest-manual-entry input {
+.guest-manual-entry input,
+.guest-manual-entry select {
   width: 100%;
   min-height: 54px;
   border: 1px solid rgba(35, 48, 57, .24);
