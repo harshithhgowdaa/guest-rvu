@@ -29,6 +29,10 @@ export function GuestCheckIn() {
   const [searchError, setSearchError] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [showGuestEntry, setShowGuestEntry] = useState(false);
+  const [manualName, setManualName] = useState("");
+  const [manualBatch, setManualBatch] = useState("");
+  const [manualError, setManualError] = useState("");
   const [notice, setNotice] = useState<Notice | null>(null);
   const confirmationRef = useRef<HTMLHeadingElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
