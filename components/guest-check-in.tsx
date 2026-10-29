@@ -40,6 +40,8 @@ export function GuestCheckIn() {
     ? `notice:${notice.type}`
     : selected
       ? `selected:${selected.id}`
+      : showGuestEntry
+        ? "manual-guest-entry"
       : "guest-check-in";
 
   usePageTopReset(pageView);
@@ -88,6 +90,10 @@ export function GuestCheckIn() {
   function reset() {
     setQuery("");
     setSelected(null);
+    setShowGuestEntry(false);
+    setManualName("");
+    setManualBatch("");
+    setManualError("");
     setNotice(null);
   }
 
@@ -95,18 +101,27 @@ export function GuestCheckIn() {
     setQuery("");
     setMatches([]);
     setSelected(null);
+    setShowGuestEntry(false);
+    setManualError("");
     setSearchError("");
     searchRef.current?.focus();
   }
 
   async function submit() {
-    if (!selected) return;
+    if (showGuestEntry && (!manualName.trim() || !/^[1-9]\d{0,3}-(?:\d{2}|\d{4})$/.test(manualBatch.trim()))) {
+      setManualError("Enter your name and batch in number-year format, such as 2-2024.");
+      return;
+    }
+    if (!showGuestEntry && !selected) return;
+
     setSubmitting(true);
     try {
       const response = await fetch("/api/check-in", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ guestId: selected.id })
+        body: JSON.stringify(showGuestEntry
+          ? { name: manualName.trim(), batch: manualBatch.trim() }
+          : { guestId: selected!.id })
       });
       const payload = (await response.json()) as {
         status?: string;
@@ -117,11 +132,17 @@ export function GuestCheckIn() {
         setNotice({ type: "success", name: payload.guest?.name });
       } else if (payload.status === "already_checked_in") {
         setNotice({ type: "already", name: payload.guest?.name });
+      } else if (showGuestEntry) {
+        setManualError(payload.error ?? "We couldn’t add your details. Please check them and try again.");
       } else {
         setNotice({ type: "error", message: payload.error ?? "We could not complete your check-in." });
       }
     } catch {
-      setNotice({ type: "error", message: "Your connection dropped. Please try again." });
+      if (showGuestEntry) {
+        setManualError("Your connection dropped. Please try again.");
+      } else {
+        setNotice({ type: "error", message: "Your connection dropped. Please try again." });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -180,20 +201,39 @@ export function GuestCheckIn() {
                 value={query}
                 placeholder="Start typing your name"
                 ariaControls="guest-search-results"
-                ariaExpanded={query.trim().length > 0 && matches.length > 0}
-                onChange={(value) => { setQuery(value); setSelected(null); }}
+                ariaExpanded={query.trim().length > 0 && !showGuestEntry}
+                onChange={(value) => {
+                  setQuery(value);
+                  setSelected(null);
+                  setShowGuestEntry(false);
+                  setManualError("");
+                }}
                 onClear={clearSearch}
                 onEscape={clearSearch}
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
               />
-              <div className="results" id="guest-search-results" role="listbox" aria-label="Matching guests" aria-live="polite">
-                {!selected && loading && <p className="quiet">Searching the register…</p>}
-                {!selected && searchError && <p className="form-error" role="alert">{searchError}</p>}
-                {!selected && !loading && !searchError && query.trim().length > 0 && matches.length === 0 && (
-                  <p className="quiet">No matching record. Please speak with the event desk.</p>
+              <div className="results" id="guest-search-results" role="region" aria-label="Guest search results" aria-live="polite">
+                {!selected && !showGuestEntry && loading && <p className="quiet">Searching the register…</p>}
+                {!selected && !showGuestEntry && searchError && <p className="form-error" role="alert">{searchError}</p>}
+                {!selected && !showGuestEntry && !loading && !searchError && query.trim().length > 0 && matches.length === 0 && (
+                  <div className="guest-no-match">
+                    <p>Can’t find your name?</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setManualName(query.trim());
+                        setManualBatch("");
+                        setManualError("");
+                        setShowGuestEntry(true);
+                        searchRef.current?.blur();
+                      }}
+                    >
+                      Enter your name and batch
+                    </button>
+                  </div>
                 )}
-                {!selected && query.trim().length > 0 && matches.slice(0, 3).map((guest) => (
+                {!selected && !showGuestEntry && query.trim().length > 0 && matches.slice(0, 3).map((guest) => (
                   <button
                     className="guest-result"
                     type="button"
@@ -238,7 +278,7 @@ export function GuestCheckIn() {
                     value={manualBatch}
                     onChange={(event) => setManualBatch(event.target.value)}
                     placeholder="e.g. 2-2024"
-                    pattern="[0-9]{1,4}-[0-9]{2,4}"
+                    pattern="[1-9][0-9]{0,3}-([0-9]{2}|[0-9]{4})"
                     title="Use number-year format, such as 2-2024."
                     autoComplete="off"
                     required
@@ -389,10 +429,9 @@ function CampusMomentsCarousel() {
 function Masthead() {
   return (
     <header className="guest-masthead">
-      <a className="guest-masthead__wordmark" href="/" aria-label="RV University guest attendance">
+      <a className="guest-masthead__wordmark" href="/staff/login" aria-label="Staff access">
         <img src="/brand/rvu-primary-lockup.png" alt="RV University — Go, change the world" />
       </a>
-      <a className="guest-masthead__staff" href="/staff/login">Staff access</a>
     </header>
   );
 }
