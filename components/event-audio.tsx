@@ -20,6 +20,14 @@ export function EventAudio() {
       });
     };
 
+    const stopPlayback = () => audio.pause();
+    const stopWhenHidden = () => {
+      if (document.visibilityState === "hidden") stopPlayback();
+    };
+
+    document.addEventListener("visibilitychange", stopWhenHidden);
+    window.addEventListener("pagehide", stopPlayback);
+
     // Request audible autoplay at the intro. If the browser blocks it, retry on
     // the guest's normal interaction with the page, without an extra start screen.
     void audio.play().then(removeRetryListeners).catch(() => {
@@ -27,7 +35,11 @@ export function EventAudio() {
       window.addEventListener("keydown", retryPlayback);
     });
 
-    return removeRetryListeners;
+    return () => {
+      removeRetryListeners();
+      document.removeEventListener("visibilitychange", stopWhenHidden);
+      window.removeEventListener("pagehide", stopPlayback);
+    };
   }, []);
 
   return <audio ref={audioRef} src="/audio/xl-alumni-gathering.mp3" preload="auto" autoPlay loop />;
