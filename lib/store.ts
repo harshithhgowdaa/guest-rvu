@@ -414,3 +414,35 @@ export async function clearAttendance(): Promise<void> {
 
   await serializeWrite(() => writeLocalAttendance([]));
 }
+
+export async function purgeLegacyTestGuests(): Promise<{ guestRecords: number; attendanceRecords: number }> {
+  if (!usesBlobStorage()) throw new Error("Legacy guest purge is only available in Vercel Blob storage.");
+
+  const guestPathnames: string[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix: "additional-guests/", limit: 1000, cursor });
+    guestPathnames.push(...page.blobs.map((blob) => blob.pathname));
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+
+  const oldIds = new Set(guestPathnames.map((pathname) => pathname.slice("additional-guests/".length).replace(/\.json$/, "")));
+  for (let index = 1; index <= 8; index += 1) oldIds.add(`guest-${String(index).padStart(3, "0")}`);
+
+  const attendancePathnames: string[] = [];
+  let attendanceCursor: string | undefined;
+  do {
+    const attendancePage = await list({ prefix: "attendance/", limit: 1000, cursor: attendanceCursor });
+    attendancePathnames.push(...attendancePage.blobs.map((blob) => blob.pathname));
+    attendanceCursor = attendancePage.hasMore ? attendancePage.cursor : undefined;
+  } while (attendanceCursor);
+
+  const attendanceToDelete = attendancePathnames.filter((pathname) => {
+    const guestId = pathname.slice("attendance/".length).replace(/\.json$/, "");
+    return oldIds.has(guestId);
+  });
+  const pathsToDelete = [...guestPathnames, ...attendanceToDelete];
+  if (pathsToDelete.length > 0) await del(pathsToDelete);
+
+  return { guestRecords: guestPathnames.length, attendanceRecords: attendanceToDelete.length };
+}

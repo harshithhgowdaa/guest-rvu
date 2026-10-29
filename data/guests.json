@@ -1,10 +1,377 @@
 [
-  { "id": "guest-001", "name": "Shashikala" },
-  { "id": "guest-002", "name": "Ravi Shankar" },
-  { "id": "guest-003", "name": "Siva Kumar" },
-  { "id": "guest-004", "name": "Dhanush" },
-  { "id": "guest-005", "name": "Sachin" },
-  { "id": "guest-006", "name": "Gopal" },
-  { "id": "guest-007", "name": "Shalini" },
-  { "id": "guest-008", "name": "Girish Pahadiya" }
+  {
+    "id": "xlri-fcdb6ae90f0ffa0341eb9366",
+    "name": "Abhinav Rajmalwar",
+    "batch": "2020"
+  },
+  {
+    "id": "xlri-3695a12b59e026f182ab4473",
+    "name": "Achyut Gupta",
+    "batch": "2018"
+  },
+  {
+    "id": "xlri-0ff3a939bb9b74b9c4b9932e",
+    "name": "Adarsh Appaiah",
+    "batch": "2017"
+  },
+  {
+    "id": "xlri-6bb8b3d87402587487c88c91",
+    "name": "Aditya S Kashyap",
+    "batch": "2021"
+  },
+  {
+    "id": "xlri-6e33209b8019450f2b2cf892",
+    "name": "Akshay",
+    "batch": "2013"
+  },
+  {
+    "id": "xlri-158676b685b76d66d7d7bf9d",
+    "name": "Anjana Chiramel",
+    "batch": "2008"
+  },
+  {
+    "id": "xlri-79706d260066cf081807d213",
+    "name": "Arun Marc DSilva",
+    "batch": "1980"
+  },
+  {
+    "id": "xlri-f19d28dee85f731fc23aa862",
+    "name": "Bhaskar Singh",
+    "batch": "2015"
+  },
+  {
+    "id": "xlri-90f4ee98c9dc98cb1b14110e",
+    "name": "Bibek Samantaray",
+    "batch": "2012"
+  },
+  {
+    "id": "xlri-b82b4c99cf4255f7712c1eb9",
+    "name": "Bimal Viswam",
+    "batch": "2013"
+  },
+  {
+    "id": "xlri-fcaf392664e39cfeba8c5844",
+    "name": "Dipanwita Ghosh",
+    "batch": "2015"
+  },
+  {
+    "id": "xlri-4c907cb7542d3f74fda99f15",
+    "name": "Divya Aggarwal",
+    "batch": "2014"
+  },
+  {
+    "id": "xlri-f3635c4958e096fa06d3fb27",
+    "name": "Dr. Victor Prasad Madeti",
+    "batch": "2018"
+  },
+  {
+    "id": "xlri-1994365d78c657443767662e",
+    "name": "Elliot Desouza",
+    "batch": "2018"
+  },
+  {
+    "id": "xlri-3e28d8f3391ce0970401abf9",
+    "name": "Garima",
+    "batch": "2010"
+  },
+  {
+    "id": "xlri-df108018c19d6b8207dfd02c",
+    "name": "Gaurav Garg",
+    "batch": "2012"
+  },
+  {
+    "id": "xlri-adf9974067d4af7e9aee22ec",
+    "name": "Gaurav Goyal",
+    "batch": "2010"
+  },
+  {
+    "id": "xlri-63306acfb31bc4969e6691ab",
+    "name": "Gaurav Jain",
+    "batch": "2011"
+  },
+  {
+    "id": "xlri-ac212ee631d83d2993affcdb",
+    "name": "Gaurav kathotia",
+    "batch": "2005"
+  },
+  {
+    "id": "xlri-fb29b0eb618fd085ade276ab",
+    "name": "Harsh Vardhan",
+    "batch": "1980"
+  },
+  {
+    "id": "xlri-300e2687b39e7a98bdc05ff2",
+    "name": "Jayadev J",
+    "batch": "2021"
+  },
+  {
+    "id": "xlri-8d68386dc3fb28fa4f1ba1b8",
+    "name": "Jose Naduthottam",
+    "batch": "2003"
+  },
+  {
+    "id": "xlri-6af4a9c90fca775d2357fdd9",
+    "name": "Joseph Philip",
+    "batch": "2001"
+  },
+  {
+    "id": "xlri-ab5db1510c7a715d4d90a538",
+    "name": "K R Lakshmi",
+    "batch": "2020"
+  },
+  {
+    "id": "xlri-44138f3db0ba0963be18ed76",
+    "name": "Kartik Somani",
+    "batch": "2019"
+  },
+  {
+    "id": "xlri-16b0da5bc161ad749e765088",
+    "name": "Kaustubh Sakhalkar",
+    "batch": "2016"
+  },
+  {
+    "id": "xlri-bfd720aade4e489a79c46f20",
+    "name": "Krishna B Mariyanka",
+    "batch": "2006"
+  },
+  {
+    "id": "xlri-575225016fe45ddd8eac54a3",
+    "name": "Krishna Chaitanya Malladi",
+    "batch": "2013"
+  },
+  {
+    "id": "xlri-39af96ab615adb240d755b05",
+    "name": "Kriti Jain",
+    "batch": "2013"
+  },
+  {
+    "id": "xlri-785c87c5bee7cddf556415c6",
+    "name": "Kshitij Datta Rishi",
+    "batch": "2011"
+  },
+  {
+    "id": "xlri-d528d3169cb1b7605215d4b0",
+    "name": "Kumar Harshdeep",
+    "batch": "2010"
+  },
+  {
+    "id": "xlri-63faede24008dc0e2e3ab030",
+    "name": "Kunal Shekhar",
+    "batch": "2019"
+  },
+  {
+    "id": "xlri-fed3dfab652e65498923d2a2",
+    "name": "Madanakumar V M",
+    "batch": "2019"
+  },
+  {
+    "id": "xlri-9ecfa70a72bc4a21f4eaab7e",
+    "name": "Manavi",
+    "batch": "2008"
+  },
+  {
+    "id": "xlri-ef28ba03ff259fc682e3737d",
+    "name": "Mandar Ranade",
+    "batch": "2012"
+  },
+  {
+    "id": "xlri-4466bce6be597cb127fbc297",
+    "name": "Mansi Nagpal",
+    "batch": "2007"
+  },
+  {
+    "id": "xlri-265c609aa9d9aa6288360ba1",
+    "name": "Mansij Majumdar",
+    "batch": "2008"
+  },
+  {
+    "id": "xlri-bc531459343ccb09bbe151de",
+    "name": "Mrigannk Agarwwal",
+    "batch": "2012"
+  },
+  {
+    "id": "xlri-6315a8dbeb992f52af9e693a",
+    "name": "Narsipur Venkatesh",
+    "batch": "1972"
+  },
+  {
+    "id": "xlri-c21bca03f0c4dbac27b20397",
+    "name": "Navneet Mukund",
+    "batch": "2004"
+  },
+  {
+    "id": "xlri-845a096b4fd40c47ede831ff",
+    "name": "Nikhil N Vasisht",
+    "batch": "2023"
+  },
+  {
+    "id": "xlri-997314f016c31656a33158f6",
+    "name": "Parijat Bhattacharjee",
+    "batch": "2013"
+  },
+  {
+    "id": "xlri-0c801e40db09ac68cfd2bab7",
+    "name": "Praneet Haldar",
+    "batch": "2010"
+  },
+  {
+    "id": "xlri-c376f0db614ad6e12e9f3920",
+    "name": "Pratush Das",
+    "batch": "2019"
+  },
+  {
+    "id": "xlri-876f8309e62d1bb7b74159e6",
+    "name": "Pratyush Raj",
+    "batch": "2013"
+  },
+  {
+    "id": "xlri-af4a400a2ceb7963a424d9cf",
+    "name": "Rahul",
+    "batch": "2026"
+  },
+  {
+    "id": "xlri-4ebb169c8f0265c85cb4fb47",
+    "name": "Rahul Gokhale",
+    "batch": "2018"
+  },
+  {
+    "id": "xlri-2e3e82d63d45cc7e57c87910",
+    "name": "Raja Sameer Nandan M",
+    "batch": "2012"
+  },
+  {
+    "id": "xlri-468031cd148bcb314b25db3e",
+    "name": "Rajarshi Banerjee",
+    "batch": "2004"
+  },
+  {
+    "id": "xlri-643fd72729c975e277514493",
+    "name": "Rashmi Peter",
+    "batch": "2005"
+  },
+  {
+    "id": "xlri-e72aefe784f7e4faf7ba26f6",
+    "name": "Ravi Krishnaswamy",
+    "batch": "1974"
+  },
+  {
+    "id": "xlri-dfc963b0daf3c681b7bb5f6d",
+    "name": "Roy Joseph",
+    "batch": "1987"
+  },
+  {
+    "id": "xlri-a855abc3ddb1e18b5b9f61be",
+    "name": "Sandeep Kumar",
+    "batch": "2017"
+  },
+  {
+    "id": "xlri-a21bb989891c0aa02220189d",
+    "name": "Sarith Nair",
+    "batch": "2009"
+  },
+  {
+    "id": "xlri-fd89f280bf45dcfb6091278c",
+    "name": "Satyajeet Gaur",
+    "batch": "2018"
+  },
+  {
+    "id": "xlri-1fdc53128d77ba1c0a88ed0a",
+    "name": "Satyajit Tripathy",
+    "batch": "2016"
+  },
+  {
+    "id": "xlri-61c4a1c7c0a90be3049aa652",
+    "name": "Saurabh Nigam",
+    "batch": "2007"
+  },
+  {
+    "id": "xlri-f8f8c1a6a64e7ab34bcf0ea5",
+    "name": "Shivansh Tandon",
+    "batch": "2019"
+  },
+  {
+    "id": "xlri-3282e295e5f2798345541503",
+    "name": "Shonalie Gupta",
+    "batch": "2000"
+  },
+  {
+    "id": "xlri-1a27cca5378efeffc0bb8aa1",
+    "name": "Shubhayu Sengupta",
+    "batch": "1998"
+  },
+  {
+    "id": "xlri-2172099bc6afa92ef5b350a0",
+    "name": "Siddharth Jain",
+    "batch": "2011"
+  },
+  {
+    "id": "xlri-17f0f0410894db9cf841de7e",
+    "name": "Siddharth Nagpal",
+    "batch": "2007"
+  },
+  {
+    "id": "xlri-b874b4b432bb48c2071e7cb5",
+    "name": "Somy Thomas",
+    "batch": "2003"
+  },
+  {
+    "id": "xlri-c5216db5b75c3f719839ee86",
+    "name": "Sujitesh Das",
+    "batch": "2001"
+  },
+  {
+    "id": "xlri-be361d3b6c2110493a40c4b2",
+    "name": "Sukul Bagai",
+    "batch": "2021"
+  },
+  {
+    "id": "xlri-498ba4482b135e2863e18f28",
+    "name": "Suparna Kapoor",
+    "batch": "2023"
+  },
+  {
+    "id": "xlri-f17d44b7ba9c22c40294e279",
+    "name": "Swati Raghunandan",
+    "batch": "2011"
+  },
+  {
+    "id": "xlri-63f50f2b50ec1b0e0a510189",
+    "name": "Vaishali Banerjee",
+    "batch": "2001"
+  },
+  {
+    "id": "xlri-4271a8d80ef47d225cd4659a",
+    "name": "Vanaja Kodungallur",
+    "batch": null
+  },
+  {
+    "id": "xlri-7070a74e8c38008210c33740",
+    "name": "Varun Elembilassery",
+    "batch": "2013"
+  },
+  {
+    "id": "xlri-749f4ba871cd40d54a130a6e",
+    "name": "Varun Singh",
+    "batch": "2011"
+  },
+  {
+    "id": "xlri-c6ff7f879202f753df5c4067",
+    "name": "Vibhor Bhargava",
+    "batch": "2018"
+  },
+  {
+    "id": "xlri-272995dca67b40679a9049e3",
+    "name": "Vijeta Kumari",
+    "batch": "2022"
+  },
+  {
+    "id": "xlri-786b324044fe63f3bfa59e3a",
+    "name": "Vikas Bhoomolla",
+    "batch": "2017"
+  },
+  {
+    "id": "xlri-03595f753b4cda04393895ae",
+    "name": "Sidhant Mahipal",
+    "batch": "2017"
+  }
 ]
