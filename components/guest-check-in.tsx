@@ -202,15 +202,55 @@ export function GuestCheckIn() {
                     role="option"
                     aria-selected={false}
                   >
-                    <span>{guest.name}</span>
+                    <span className="guest-result__identity">
+                      {guest.name}
+                      {guest.batch && <small>Batch {guest.batch}</small>}
+                    </span>
                     <span className="guest-result-status">Select</span>
                   </button>
                 ))}
               </div>
             </fieldset>
-            <button className="primary-button" type="submit" disabled={!selected || submitting}>
-              {submitting ? "Checking you in…" : selected ? "Confirm check-in" : "Select your name"}
-            </button>
+            {showGuestEntry ? (
+              <div className="guest-manual-entry">
+                <p>Enter your details and we’ll add you to the register.</p>
+                <label>
+                  <span>Your name</span>
+                  <input
+                    type="text"
+                    value={manualName}
+                    onChange={(event) => setManualName(event.target.value)}
+                    autoComplete="name"
+                    maxLength={100}
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Batch <small>(number-year)</small></span>
+                  <input
+                    type="text"
+                    value={manualBatch}
+                    onChange={(event) => setManualBatch(event.target.value)}
+                    placeholder="e.g. 2-2024"
+                    pattern="[0-9]{1,4}-[0-9]{2,4}"
+                    title="Use number-year format, such as 2-2024."
+                    autoComplete="off"
+                    required
+                  />
+                </label>
+                {manualError && <p className="form-error" role="alert">{manualError}</p>}
+                <button className="primary-button" type="submit" disabled={submitting}>
+                  {submitting ? "Adding you…" : "Add and check in"}
+                </button>
+                <button className="guest-manual-entry__back" type="button" onClick={() => setShowGuestEntry(false)}>
+                  Back to name search
+                </button>
+              </div>
+            ) : (
+              <button className="primary-button" type="submit" disabled={!selected || submitting}>
+                {submitting ? "Checking you in…" : selected ? "Confirm check-in" : "Select your name"}
+              </button>
+            )}
           </form>
         </section>
       </div>
