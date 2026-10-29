@@ -245,6 +245,11 @@
     "batch": "2004"
   },
   {
+    "id": "xlri-0f6d0f82f9d52f91a87d47d8",
+    "name": "Ram Kumar Kakani",
+    "batch": null
+  },
+  {
     "id": "xlri-643fd72729c975e277514493",
     "name": "Rashmi Peter",
     "batch": "2005"
@@ -310,6 +315,11 @@
     "batch": "2007"
   },
   {
+    "id": "xlri-03595f753b4cda04393895ae",
+    "name": "Sidhant Mahipal",
+    "batch": "2017"
+  },
+  {
     "id": "xlri-b874b4b432bb48c2071e7cb5",
     "name": "Somy Thomas",
     "batch": "2003"
@@ -367,11 +377,6 @@
   {
     "id": "xlri-786b324044fe63f3bfa59e3a",
     "name": "Vikas Bhoomolla",
-    "batch": "2017"
-  },
-  {
-    "id": "xlri-03595f753b4cda04393895ae",
-    "name": "Sidhant Mahipal",
     "batch": "2017"
   }
 ]
