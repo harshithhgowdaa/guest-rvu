@@ -162,7 +162,9 @@ export function GuestCheckIn() {
           className={`guest-arrival-panel ${searchFocused ? "is-searching" : ""} ${selected ? "has-selection" : ""}`}
           aria-labelledby="checkin-heading"
         >
-          <h1 id="checkin-heading" tabIndex={-1}>Welcome to XLRI Alumni (Blr) Gathering</h1>
+          <h1 id="checkin-heading" tabIndex={-1}>
+            Welcome to XLRI Alumni Bengaluru<br />Get Together
+          </h1>
           <CampusMomentsCarousel />
           <form className="check-in-form" onSubmit={(event) => { event.preventDefault(); void submit(); }}>
             <p className="guest-instructions">Find your name below to check in.</p>
