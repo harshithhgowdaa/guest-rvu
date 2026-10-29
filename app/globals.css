@@ -882,7 +882,7 @@ th,td { padding-right:7px; }
   }
   .guest-arrival-panel {
     flex: 1 0 auto;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 18px;
     padding: 25px 22px 22px;
   }
@@ -901,7 +901,7 @@ th,td { padding-right:7px; }
 
 @media (max-width: 720px) and (max-height: 720px) {
   .guest-arrival-shell { padding-top: 8px; padding-bottom: 18px; }
-  .guest-arrival-panel { padding-block: 24px; }
+  .guest-arrival-panel { justify-content: flex-start; padding-block: 24px; }
   .guest-arrival-orbit { margin-bottom: 26px; transform: scale(.92); }
   .campus-moments { max-width: 300px; margin-top: 2px; }
   .guest-arrival-panel h1 { font-size: clamp(2.5rem, 11vw, 3.25rem); }
