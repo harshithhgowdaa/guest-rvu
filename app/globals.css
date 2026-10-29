@@ -282,12 +282,17 @@ th,td { padding-right:7px; }
 }
 
 .guest-masthead__wordmark {
+  position: absolute;
+  left: 50%;
   width: clamp(126px, 34vw, 190px);
   height: 68px;
   display: block;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
+  transform: translateX(-50%);
   text-decoration: none;
 }
+
+.guest-masthead:not(.staff-console__masthead) .guest-masthead__staff { margin-left: auto; }
 
 .guest-masthead__wordmark img {
   width: 100%;
