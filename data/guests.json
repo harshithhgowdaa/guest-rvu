@@ -70,6 +70,11 @@
     "batch": null
   },
   {
+    "id": "xlri-4a416899036fbaf401d48a49",
+    "name": "Dr. Prakash Goudanavar",
+    "batch": null
+  },
+  {
     "id": "xlri-0f6d0f82f9d52f91a87d47d8",
     "name": "Dr. Ram Kumar Kakani",
     "batch": null
@@ -245,6 +250,46 @@
     "batch": "2013"
   },
   {
+    "id": "xlri-a1a6bfbbe2491c6dbf3b0cab",
+    "name": "Prof. Abdul Sakib Mondal",
+    "batch": null
+  },
+  {
+    "id": "xlri-01e5e940e7bbe78d0b235a41",
+    "name": "Prof. Arindam Mitra",
+    "batch": null
+  },
+  {
+    "id": "xlri-2cbe21cc0101ad5e9b5859cb",
+    "name": "Prof. Diganta Chakrabarti",
+    "batch": null
+  },
+  {
+    "id": "xlri-5772b43d1d0505d48c7a4c07",
+    "name": "Prof. G. Shobha",
+    "batch": null
+  },
+  {
+    "id": "xlri-3a261b90472dcad03165cd29",
+    "name": "Prof. Piyush Roy",
+    "batch": null
+  },
+  {
+    "id": "xlri-898a60c64feb33458b9f6000",
+    "name": "Prof. Priya Nair",
+    "batch": null
+  },
+  {
+    "id": "xlri-5774fe2a9bbd7e9795af340f",
+    "name": "Prof. Sujata Bali",
+    "batch": null
+  },
+  {
+    "id": "xlri-c24b1cce30c09a26028c4cfb",
+    "name": "Prof. T. Hongray",
+    "batch": null
+  },
+  {
     "id": "xlri-af4a400a2ceb7963a424d9cf",
     "name": "Rahul",
     "batch": "2026"
@@ -263,6 +308,11 @@
     "id": "xlri-468031cd148bcb314b25db3e",
     "name": "Rajarshi Banerjee",
     "batch": "2004"
+  },
+  {
+    "id": "xlri-f324a6015d831576d7a88802",
+    "name": "Rajavel Manoharan",
+    "batch": null
   },
   {
     "id": "xlri-643fd72729c975e277514493",
