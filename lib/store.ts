@@ -153,8 +153,6 @@ async function getLocalAttendance(): Promise<AttendanceRecord[]> {
     return parsed;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      await fs.mkdir(dataDirectory(), { recursive: true });
-      await writeLocalAttendance([]);
       return [];
     }
     throw error;
